@@ -1,6 +1,9 @@
 # Reseptisovellus
 *Aineopintojen harjoitustyö: Tietokantasovellus (Tsoha)*
 
+Sovellus löytyy osoitteesta
+https://polar-hamlet-77249.herokuapp.com/
+
 Sovellus sisältää reseptejä, joita voi hakutoiminnolla etsiä ainesosan tai ruuan tyypin perusteella (keitto, kasvisruoka, jälkiruoka jne.). Reseptit ovat kaikkien luettavissa, mutta kirjautumalla sisään käyttäjä saa lisätoimintoja käyttöönsä. Alla eri käyttäjäroiminnot eriteltynä.
 
 ### Käyttäjätyypit
