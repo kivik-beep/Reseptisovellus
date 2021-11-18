@@ -27,6 +27,10 @@ def login():
 def welcome():
     return render_template("welcome.html")
 
+@app.route("/favourites")
+def favourites():
+    return render_template("favourites.html")
+
 @app.route("/new")
 def new():
     return "Täällä voit luoda uuden reseptin"
@@ -38,3 +42,4 @@ def recipes():
 @app.route("/recipe/<int:id>")
 def recipe(id):
     return "tällä sivulla on resepti no. "+srt(id)
+
