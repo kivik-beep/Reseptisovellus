@@ -12,9 +12,17 @@ def index():
 def register():
     return render_template("register.html")
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if user.login(username, password):
+            return redirect("/welcome")
+        else:
+            return render:template("error.html", message="Väärä tunnus tai salasana")
 
 @app.route("/welcome")
 def welcome():
