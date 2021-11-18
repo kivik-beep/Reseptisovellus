@@ -31,6 +31,6 @@ def welcome():
 def new():
     return "Täällä voit luoda uuden reseptin"
 
-@app.route("/recipies")
-def recipies():
+@app.route("/recipes")
+def recipes():
     return "Täällä tulee näkymään kaikki reseptit"
