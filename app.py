@@ -41,5 +41,5 @@ def recipes():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-    return "tällä sivulla on resepti no. "+srt(id)
+    return "tällä sivulla on resepti no. " + str(id)
 
