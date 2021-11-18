@@ -22,7 +22,7 @@ def login():
         if user.login(username, password):
             return redirect("/welcome")
         else:
-            return render_template("error.html")
+            return render_template("error.html", message="Väärä käyttäjätunnus tai salasana")
 
 @app.route("/welcome")
 def welcome():
