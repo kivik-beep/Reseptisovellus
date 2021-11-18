@@ -23,9 +23,9 @@ def register():
 def login():
     return render_template("login.html")
 
-@app.route("/welcome", methods=["POST"])
+@app.route("/welcome")
 def welcome():
-    return render_template("welcome.html", name=request.form["name"])
+    return render_template("welcome.html")
 
 @app.route("/new")
 def new():
