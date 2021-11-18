@@ -34,3 +34,7 @@ def new():
 @app.route("/recipes")
 def recipes():
     return "Täällä tulee näkymään kaikki reseptit"
+
+@app.route("/recipes/<int:id>")
+def recipe(id):
+    return "tällä sivulla on resepti no. "+srt(id)
