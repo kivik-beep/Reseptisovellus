@@ -22,7 +22,7 @@ def logout():
     del session["user_id"]
 
 def register(username, password):
-    hash_vale = generate_password_hash(password)
+    hash_value = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
         db.session.execute(sql, {"username":username, "password":hash_value})
