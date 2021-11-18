@@ -17,7 +17,7 @@ def index():
 
 @app.route("/register")
 def register():
-    return "Täällä voit luoda uuden käyttäjätunnuksen"
+    return render_template("register.html")
 
 @app.route("/login")
 def login():
