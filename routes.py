@@ -19,7 +19,7 @@ def register():
         if password1 != password2:
             return render_template("error.html", message="Salasanat eivät täsmää")
         if users.register(username, password1):
-            return redirect("/wecome")
+            return redirect("/welcome")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
 
@@ -30,7 +30,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if user.login(username, password):
+        if users.login(username, password):
             return redirect("/welcome")
         else:
             return render_template("error.html", message="Väärä käyttäjätunnus tai salasana")
