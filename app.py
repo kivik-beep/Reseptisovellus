@@ -21,13 +21,20 @@ def register():
 
 @app.route("/login")
 def login():
-    return "Tällä sivulla voit kirjautua sisään"
+    return render_template("login.html")
 
-@app.route("/your-page")
+@app.route("/welcome", methods=["POST"])
 def welcome():
-    return "sisäänkirjautuminen palauttaa tänne, täällä samat vaihtoehdot kuin etusivulla + uusi resepti"
-    
+    return render_template("welcome.html", name=request.form["name"])
+
 @app.route("/new")
 def new():
     return "Täällä voit luoda uuden reseptin"
-    
+
+@app.route("/recipies")
+def recipies():
+    return "Täällä tulee näkymään kaikki reseptit"
+
+@app.route("/recipes/<int : id>")
+def recipies(id):
+    return "Tälle sivulle tulee ohje reseptiin " + str(id)
