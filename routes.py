@@ -1,5 +1,5 @@
 from app import app
-import visits
+import visits, users
 from flask import render_template, request, redirect
 
 @app.route("/")
