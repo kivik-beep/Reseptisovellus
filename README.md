@@ -4,53 +4,40 @@
 Sovellus löytyy osoitteesta
 https://polar-hamlet-77249.herokuapp.com/
 
-Sovellus sisältää reseptejä, joita voi hakutoiminnolla etsiä ainesosan tai ruuan tyypin perusteella (keitto, kasvisruoka, jälkiruoka jne.). Reseptit ovat kaikkien luettavissa, mutta kirjautumalla sisään käyttäjä saa lisätoimintoja käyttöönsä. Alla eri käyttäjäroiminnot eriteltynä.
+Sovellus sisältää reseptejä, joita voi hakutoiminnolla rajata ainesosan tai ruuan tyypin perusteella (keitto, kasvisruoka, jälkiruoka jne.). Reseptit ovat kaikkien luettavissa, mutta kirjautumalla sisään käyttäjä saa lisätoimintoja käyttöönsä.
 
-### Käyttäjätyypit
-#### Ei kirjautunut käyttäjä voi
-- luoda uuden käyttäjätunnuksen
-- lukea reseptejä
-- käyttää perushakua reseptinetsintään
+- Ilman kirjautumista käyttäjä voi etsiä ja rajata reseptejä, sekä kirjautua tai luoda uuden tunnuksen.
+- Kirjautunut käyttäjä voi lisätä uusia reseptejä tai merkitä reseptin suosikiksi.
+- Ylläpitäjä voi lisäksi poistaa tai muokata reseptejä sekä lisätä uuden ylläpitäjän.
 
-#### Kirjautunut käyttäjä voi lisäksi
-- kirjautua sisään 
-- lisätä uusia reseptejä
-- ehdottaa muokkausta tai ilmiantaa olemassaolevaan reseptiin
-- merkitä olemassa olevan reseptin suosikkeihin
-- voi lisätä "omat ainekset" ja hakea resepteistä niitä, joihin löytyy ainekset valmiiksi
-- voi muokata "omia aineksia" vapaasti
-
-#### Ylläpitäjä voi edellämainittujen lisäksi
-- käsitellä muokkausehdotuksia, eli muokata olemassaolevaa ohjetta
-- poistaa ohjeita
-- lisätä uuden ylläpitäjän 
+**Seuraavista ominaisuuksista toteutetaan ainakin toinen:**
+1. Kirjautunut käyttäjä voi kommentoida reseptiä
+2. Kirjautunut käyttäjä voi syöttää kotoaan löytyvät ainekset, ja etsiä reseptejä joihin sopivat ainekset löytyvät kaapista. Sovellus muistaa käyttäjän ainekset ja niitä voi päivittää.
 
 
 ### Resepti
-Reseptin tulee sisältää ainakin seuraavat tiedot:
-- uniikki nimi
-- montako annosta resseptistä tulee
+Reseptin tulee sisältää ainakin seuraavat tiedot: 
+- uniikki nimi 
+- montako annosta reseptistä tulee 
 - ainesosalista 
-- valmistusohje
-- ruuan tyyppi
+- valmistusohje 
 
-Suositeltavia reseptin tietoja on lisäksi
-- valmistusaika (aktiivinen/passiivinen), käyttäjän lisättävissä
+Suositeltavia reseptin tietoja on lisäksi ruuan tyyppi sekä valmistusaika (aktiivinen/passiivinen)
 
 ### Ideoita jatkokehitykseen
-- Suunnitelmissa on syöttää kotona olevista aineksista alkuun vain tuotteet ilman määriä. Mikäli aikaa jää, toteutan omiin aineksiin mahdollisuuden lisätä ainesosien määrät.
+- idea 1: Suunnitelmissa on syöttää kotona olevista aineksista alkuun vain tuotteet ilman määriä. Mikäli aikaa jää, toteutan omiin aineksiin mahdollisuuden lisätä ainesosien määrät.
 - Reseptin annosmäärän muuttaminen - ainesosalistan ainesosien määrät muuttuvat kun valikosta muutetaan annosmäärää
 - Ylläolevien toteutuksen jäälkeen on mahdollista lisätä omien ainesten hakuun valinta montako annosta kyseistä ruokaa pitäisi saada
-- Reseptien järjestäminen sen mukaan, mihin löytyy parhaiten aineksia valmiiksi
-- Reseptiä voisi olla mahdollista kommentoida, ja suosikkimerkintöjen määrä voisi lukea reseptisivulla
+- idea 1: Reseptien järjestäminen sen mukaan, mihin löytyy parhaiten aineksia valmiiksi
+- idea 2: Reseptiä voi mahdollista kommentoida ja kommentteihin voisi vastata
 - Reseptiin voisi lisätä kuvan ja/tai esittelytekstin
 - Reseptisivulla voisi näkyä suosikkimerkintöjen määrä
 
-### Palautusten sisältötavoitteet
-Välipalautus 1: vain suunnitelma. 
+### Välipalautusten sisällöt
+Välipalautus 1: Alustava suunnitelma
 
-Välipalautus 2: mahdollisimman paljon käyttäjien ja reseptien ominaisuuksia
+Välipalautus 2: Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua sisään. Kirjautunut käyttäjä voi kirjautua ulos. Kirjautuneen käyttäjän silmille tarkoitetut sivut eivät näy kirjautumattomille käyttäjille.
 
-Välipalautus 3: käyttäjien ja reseptien ominaisuudet valmiiksi, sekä toivottavasti jotain jatkokehityslistan - ominaisuuksia mukaan.
+Välipalautus 3: Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.
 
-Loppupalautus: viimeistely, eli mahdollisimman eheä ja hyvin toimiva ohjelma valmiiksi.
+Loppupalautus: Viimeistely.
