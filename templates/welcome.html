@@ -1,3 +1,4 @@
+{% if session.user_id %}
 <p> Tervetuloa! </p>
 <p>Tällä sivulla voit</p>
 <ul>
@@ -7,5 +8,11 @@
 <li> lisätä tai tutkailla omia tarvikkeita
 </ul>
 <p>
+{% else %}
+Tällä sivulla on kirjautuneen käyttäjän toimintoja.
+<p>
+Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
+<p>
+{% endif %}
 <a href="/">Palaa etusivulle</a>
 
