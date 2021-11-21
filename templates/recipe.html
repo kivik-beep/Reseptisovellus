@@ -1,0 +1,10 @@
+<h1> { name } </h1>
+<p>
+<h3>Ainekset:</h3>
+{% for ingredient in ingredients %}
+{{ ingredient.quantity }} {{ ingredient.name }}
+{% endfor %}
+<p>
+<h3>Työvaiheet:</h3>
+{ instructions }
+<p>
