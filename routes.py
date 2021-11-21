@@ -47,8 +47,13 @@ def new():
 
 @app.route("/recipes")
 def recipes():
-    return "Täällä tulee näkymään kaikki reseptit"
+    return render_template("recipes.html")
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
     return "tällä sivulla on resepti no. " + str(id)
+
+@app.route("/logout")
+def logout():
+    users.logout()
+    return redirect("/")

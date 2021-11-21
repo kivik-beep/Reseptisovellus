@@ -1,8 +1,16 @@
 <title>Reseptisovellus</title>
 <h1>Tervetuloa!</h1>
+<a href="/recipes">reseptit</a>
 <p>
+{% if session.user_id %}
+Olet kirjautunut sisään.
+<p>
+<a href="/welcome">oma sivu</a>
+<p>
+<a href="/logout">kirjaudu ulos</a>
+{% else %}
 <a href="/login">Kirjaudu sisään</a>
 <br>
 <a href="/register">Luo uusi käyttäjätunnus</a>
-
+{% endif %}
 

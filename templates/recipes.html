@@ -1,0 +1,17 @@
+{% if session.user_id %}
+<a href="/welcome"> oma sivu </a><a href="/logout"> kirjaudu ulos </a>
+{% else %}
+<a href="/login"> Kirjaudu sisään </a><a href="/register"> Luo uusi käyttäjätunnus </a>
+{% endif %}
+<p>
+<h1>Reseptit</h1>
+<p>
+Tähän tulee hakutoiminto
+<p>
+ja tässä tulee näkymään reseptit listana
+<ul>
+<li> <a href="/recipe/1"> resepti 1</a>
+<li> <a href="/recipe/2"> resepti 2</a>
+<li> <a href="/recipe/3"> resepti 3</a>
+<li> jne
+</ul>
