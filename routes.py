@@ -1,12 +1,10 @@
 from app import app
-import visits, users
+import users
 from flask import render_template, request, redirect
 
 @app.route("/")
 def index():
-    visits.add_visit()
-    counter = visits.get_counter
-    return render_template("index.html", counter=counter) 
+    return render_template("index.html") 
 
 @app.route("/register", methods=["GET","POST"])
 def register():
