@@ -13,6 +13,13 @@ CREATE TABLE recipe (
     passive INTEGER
 );
 
+CREATE TABLE incredient (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE,
+    type TEXT
+);
+
+
 CREATE TABLE incredients (
     recipe_id REFERENCES recipe,
     incredient_id REFERENCES incredient;
@@ -20,13 +27,7 @@ CREATE TABLE incredients (
     scale TEXT
 );
 
-CREATE TABLE incredient (
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE,
-    type TEXT
-);
-
-CREATE TABLE favorites {
+CREATE TABLE favorites (
     user_id REFERENCES users,
     recipe_id REFERENCES recipe
 );
