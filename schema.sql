@@ -21,15 +21,15 @@ CREATE TABLE incredient (
 
 
 CREATE TABLE incredients (
-    recipe_id REFERENCES recipe,
-    incredient_id REFERENCES incredient;
-    quantity DOUBLE,
+    recipe_id INTEGER REFERENCES recipe,
+    incredient_id INTEGER REFERENCES incredient,
+    quantity DECIMAL,
     scale TEXT
 );
 
 CREATE TABLE favorites (
-    user_id REFERENCES users,
-    recipe_id REFERENCES recipe
+    user_id INTEGER REFERENCES users,
+    recipe_id INTEGER REFERENCES recipe
 );
 
 
