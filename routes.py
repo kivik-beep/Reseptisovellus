@@ -9,29 +9,29 @@ def index():
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", error="")
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eivät täsmää")
+            return render_template("register.html", error="Salasanat eivät täsmää")
         if users.register(username, password1):
             return redirect("/welcome")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return render_template("register.html", error="Rekisteröinti ei onnistunut")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", error="")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/welcome")
         else:
-            return render_template("error.html", message="Väärä käyttäjätunnus tai salasana")
+            return render_template("login.html", error="Väärä käyttäjätunnus tai salasana")
 
 @app.route("/welcome")
 def welcome():
