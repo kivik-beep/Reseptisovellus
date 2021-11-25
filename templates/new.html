@@ -1,19 +1,24 @@
 {% block content %}
-<h2>Lisää respti</h2>
+<h2>Lisää resepti</h2>
 <form action="/new" method="POST">
 nimi:
-<input type="text" name="name" minlength="3" maxlength="20">
+<input type="text" name="name">
 <br>
 annoksia: <input type="number" name="serves">
 <br> 
 valmistusaika: 
-<input type="number" name="active" placeholder="aktiivinen">|<input type="number" name="passiivinen" placeholder="passiivinen">
+<input type="number" name="active" placeholder="aktiivinen">
+<br>
+<input type="number" name="passive" placeholder="passiivinen">
 <br>
 Ainekset:
 <br>
-<p>Syötä ainekset näin: (desimaaliarvo määrästä)-(mittayksikkö)-(aineksen nimi)</p>
-<textarea name="incredients" rows="18" cols="20" maxlength="10000" placeholder="1-dl-vesi">
-</textarea>
+<p>Sanaparit:<br>
+    <textarea name="incredients" rows="8" cols="40" maxlength="10000">
+    1-apina-monkey
+    1-banaani-banana
+    1-cembalo-harpsichord
+    </textarea></p>
 <br>
 <p>Ohje:<br>
 <textarea name="instructions" rows="18" cols="40" maxlength="10000">

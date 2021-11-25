@@ -46,7 +46,7 @@ def favourites():
     return render_template("favourites.html")
 
 @app.route("/new", methods=["get", "post"])
-def new():
+def add_recipe():
     if request.method == "GET":
         return render_template("new.html")
     
@@ -60,6 +60,8 @@ def new():
 
         recipe_id = foods.add_recipe(name,serves,instructions,active,passive,incredients)
         return redirect("/recipe/"+str(recipe_id))
+    else:
+        return render_template("new.html")
 
 
 @app.route("/recipes")
