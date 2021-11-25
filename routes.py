@@ -1,5 +1,5 @@
 from app import app
-import users
+import users, recipes
 from flask import render_template, request, redirect
 
 @app.route("/")
@@ -23,7 +23,7 @@ def register():
         if users.register(username, password1):
             return redirect("/welcome")
         else:
-            return render_template("register.html", error="Rekisteröinti ei onnistunut")
+            return render_template("register.html", error="Rekisteröinti ei onnistunut, kokeile toista käyttäjänimeä")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -45,9 +45,22 @@ def welcome():
 def favourites():
     return render_template("favourites.html")
 
-@app.route("/new")
+@app.route("/new", methods=["get", "post"])
 def new():
-    return "Täällä voit luoda uuden reseptin"
+    if request.method == "GET":
+        return render_template("new.html")
+    
+    if request.method == "POST":
+        name = request.form["name"]
+        serves = request.form["serves"]
+        active_time = request.form["active_time"]
+        passive_time = request.form["passive_time"]
+        incredients = request.form["incredients"]
+        instructions = request.form["instructions"]
+
+        recipe_id = recipes.add_recipe(name,serves,instructions,active_time,passive_time,incredients)
+        return redirect("/recipe/"+str(recipe_id))
+
 
 @app.route("/recipes")
 def recipes():
