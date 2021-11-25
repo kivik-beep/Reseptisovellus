@@ -5,10 +5,10 @@ def get_all():
     sql = "SELECT id, name FROM recipes"
     return db.session.execute(sql).fetchall()
 
-def add_recipe(name,serves,instructions,active_time,passive_time,incredients):
+def add_recipe(name,serves,instructions,active,passive,incredients):
     sql = """INSERT INTO recipes (name, instructions, serves, active, passive) 
-            VALUES (:name, :instructions, :serves, :active_time, :passive_time) RETURNING id"""
-    recipe_id = db.session.execute(sql, {"name":name, "instructions":instructions, "serves":serves, "active":active_time, "passive":passive_time})
+            VALUES (:name, :instructions, :serves, :active, :passive) RETURNING id"""
+    recipe_id = db.session.execute(sql, {"name":name, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
     for row in incredients.split("\n"):
         parts = row.strip().split("-")

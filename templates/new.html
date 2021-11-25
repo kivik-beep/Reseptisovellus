@@ -1,3 +1,4 @@
+{% block content %}
 <h2>Lisää respti</h2>
 <form action="/new" method="POST">
 nimi:
@@ -6,7 +7,7 @@ nimi:
 annoksia: <input type="number" name="serves">
 <br> 
 valmistusaika: 
-<input type="number" name="active_time" placeholder="aktiivinen">|<input type="number" name="passive_time" placeholder="passiivinen">
+<input type="number" name="active" placeholder="aktiivinen">|<input type="number" name="passiivinen" placeholder="passiivinen">
 <br>
 Ainekset:
 <br>
@@ -22,3 +23,4 @@ Ainekset:
 </form>
 <p>
 <a href="/welcome">Palaa takaisin</a>
+{% endblock %}

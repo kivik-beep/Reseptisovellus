@@ -1,5 +1,5 @@
 from app import app
-import users, recipes
+import users, foods
 from flask import render_template, request, redirect
 
 @app.route("/")
@@ -53,12 +53,12 @@ def new():
     if request.method == "POST":
         name = request.form["name"]
         serves = request.form["serves"]
-        active_time = request.form["active_time"]
-        passive_time = request.form["passive_time"]
+        active = request.form["active"]
+        passive = request.form["passive"]
         incredients = request.form["incredients"]
         instructions = request.form["instructions"]
 
-        recipe_id = recipes.add_recipe(name,serves,instructions,active_time,passive_time,incredients)
+        recipe_id = foods.add_recipe(name,serves,instructions,active,passive,incredients)
         return redirect("/recipe/"+str(recipe_id))
 
 
