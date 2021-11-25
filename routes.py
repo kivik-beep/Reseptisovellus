@@ -16,6 +16,10 @@ def register():
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("register.html", error="Salasanat eivät täsmää")
+        if len(username)<3:
+            return render_template("register.html", error="Käyttäjänimen oltava vähintään neljän merkin mittainen")
+        if len(password1)<5:
+            return render_template("register.html", error="Salasanan oltava vähintään kuuden merkin mittainen")
         if users.register(username, password1):
             return redirect("/welcome")
         else:
