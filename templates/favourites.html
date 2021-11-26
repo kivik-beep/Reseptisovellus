@@ -1,9 +1,9 @@
 {% if session.user_id %}
-Hei {{ name }}!
-<h3>Sinun suosikkireseptisi:</h3>
+Hei !
+<h3>Käyttäjän {{ name }} {{ type }}reseptit:</h3>
 <ul>
-    {% for r in favrecipes %}
-    <li><a href="/deck/{{ r_id }}">{{ r.name }}</a>
+    {% for r in recipes %}
+    <li><a href="/recipe/{{ r.id }}">{{ r.name }}</a>
     {% endfor %}
     </ul>
 <p>
@@ -14,6 +14,6 @@ Tällä sivulla on kirjautuneen käyttäjän toimintoja.
 Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
 <p>
 {% endif %}
-<a href="/">Palaa etusivulle</a>
+<a href="/welcome">Palaa omalle sivulle</a>
 
 

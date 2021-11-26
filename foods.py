@@ -7,10 +7,10 @@ def get_all():
     return db.session.execute(sql).fetchall()
     
 
-def add_recipe(name, serves, instructions, active, passive, incredients):
-    sql = """INSERT INTO recipe (name, instructions, serves, active, passive) 
-            VALUES (:name, :instructions, :serves, :active, :passive) RETURNING id"""
-    recipe_id = db.session.execute(sql, {"name":name, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
+def add_recipe(name, user_id, serves, instructions, active, passive, incredients):
+    sql = """INSERT INTO recipe (name, user_id, instructions, serves, active, passive) 
+            VALUES (:name, :user_id, :instructions, :serves, :active, :passive) RETURNING id"""
+    recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
  #   for row in incredients.split("\n"):
  #       parts = row.strip().split("-")
@@ -42,4 +42,8 @@ def add_favourite(user_id, recipe_id):
     
 def get_favourites(id):
     sql = "SELECT r.id, r.name FROM favorites as f, recipe as r WHERE f.recipe_id = r.id AND f.user_id=:user_id"
+    return db.session.execute(sql, {"user_id": id}).fetchall()
+
+def get_mine(id):
+    sql = "SELECT id, name FROM recipe WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id": id}).fetchall()

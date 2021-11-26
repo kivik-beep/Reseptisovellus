@@ -7,6 +7,7 @@ CREATE TABLE users (
 CREATE TABLE recipe (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE,
+    user_id INTEGER REFERENCES users,
     instructions TEXT,
     serves INTEGER,
     active INTEGER,
