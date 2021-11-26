@@ -38,6 +38,6 @@ Välipalautus 1: Alustava suunnitelma
 
 Välipalautus 2: Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua sisään. Kirjautunut käyttäjä voi kirjautua ulos. Kirjautuneen käyttäjän silmille tarkoitetut sivut eivät näy kirjautumattomille käyttäjille.
 
-Välipalautus 3: Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.
+Välipalautus 3: Käyttäjä voi lisätä reseptin, kaikki reseptit ovat listana reseptit-sivulla. Käyttäjän omalta sivulta pääsee selaamaan käyttäjän suosikeiksi merkitsemiä, sekä itse lisäämiä reseptejä. (Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.)
 
 Loppupalautus: Viimeistely.
