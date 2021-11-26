@@ -1,8 +1,6 @@
-{% if session.user_id %}
-<a href="/welcome"> oma sivu </a><a href="/logout"> kirjaudu ulos </a>
-{% else %}
-<a href="/login"> Kirjaudu sisään </a><a href="/register"> Luo uusi käyttäjätunnus </a>
-{% endif %}
+
+{% extends "layout.html" %}
+{% block content %}
 <p>
 <h1>Reseptit</h1>
 <p>
@@ -15,3 +13,4 @@ Tähän tulee hakutoiminto
     {% endfor %}
     </ul>
 <p>
+{% endblock %}

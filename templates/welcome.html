@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
 <p> Tervetuloa! </p>
 <p>Tällä sivulla voit</p>
@@ -17,3 +19,4 @@ Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
 {% endif %}
 <a href="/">Palaa etusivulle</a>
 
+{% endblock %}

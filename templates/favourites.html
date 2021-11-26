@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
 Hei !
 <h3>Käyttäjän {{ name }} {{ type }}reseptit:</h3>
@@ -15,5 +17,4 @@ Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
 <p>
 {% endif %}
 <a href="/welcome">Palaa omalle sivulle</a>
-
-
+{% endblock %}

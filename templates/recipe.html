@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 {% if session.user_id %}
 tähän toiminnallisuus joka lisää reseptin suosikkeihin
 <br>
@@ -17,3 +19,4 @@ ei ole vielä toiminnassa ainesten haku
 <h3>Työvaiheet:</h3>
 {{ instructions }}
 <p>
+{% endblock %}
