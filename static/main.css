@@ -1,0 +1,22 @@
+body {
+    margin: auto;
+    max-width: 45em;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    color: Indigo;
+    background-color: Snow;
+}
+
+h1 {
+	color: Teal;
+}
+
+table {
+    width: 80%;
+}
+
+td, th {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding: 0.5rem:
+}
