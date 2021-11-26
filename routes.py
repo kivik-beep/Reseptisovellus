@@ -70,7 +70,8 @@ def recipes():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-    return "tällä sivulla on resepti no. " + str(id)
+    data = foods.get_recipe(id)
+    return render_template("recipe.html", name=str(data), serves="2", active="1",passive="2",instructions="Valmista ruoka näin")
 
 @app.route("/logout")
 def logout():

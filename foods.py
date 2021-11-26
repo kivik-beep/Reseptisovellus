@@ -11,7 +11,6 @@ def add_recipe(name, serves, instructions, active, passive, incredients):
             VALUES (:name, :instructions, :serves, :active, :passive) RETURNING id"""
     recipe_id = db.session.execute(sql, {"name":name, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
-    print("tuote on nyt luotu, id on", recipe_id)
  #   for row in incredients.split("\n"):
  #       parts = row.strip().split("-")
  #       if len(parts) != 3:
@@ -27,4 +26,10 @@ def add_recipe(name, serves, instructions, active, passive, incredients):
     
     db.session.commit()
     return recipe_id
+
+def get_recipe(id):
+    #sql = "SELECT * FROM recipe WHERE id=:id"
+    #result = db.session.execute(sql, {"id": id}).fetchone()[0]
+    return "reseptin nimi"
+    
 

@@ -1,10 +1,9 @@
-<h1> { name } </h1>
+<h1> {{ name }} </h1>
 <p>
+<p>Annoksia: {{ serves }}, Valmistusaika {{ active }}, ({{ passive }})
 <h3>Ainekset:</h3>
-{% for ingredient in ingredients %}
-{{ ingredient.quantity }} {{ ingredient.name }}
-{% endfor %}
+ei ole vielä toiminnassa ainesten haku 
 <p>
 <h3>Työvaiheet:</h3>
-{ instructions }
+{{ instructions }}
 <p>
