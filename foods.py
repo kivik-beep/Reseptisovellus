@@ -28,8 +28,10 @@ def add_recipe(name, serves, instructions, active, passive, incredients):
     return recipe_id
 
 def get_recipe(id):
-    #sql = "SELECT * FROM recipe WHERE id=:id"
-    #result = db.session.execute(sql, {"id": id}).fetchone()[0]
-    return "reseptin nimi"
+    sql = "SELECT * FROM recipe WHERE id=:id"
+    result = db.session.execute(sql, {"id": id}).fetchall()
+    data = result[0]
+    #name=str(data), serves="2", active="1",passive="2",instructions="Valmista ruoka näin"
+    return data
     
 
