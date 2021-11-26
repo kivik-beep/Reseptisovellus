@@ -8,10 +8,10 @@
 <p>
 Tähän tulee hakutoiminto
 <p>
-ja tässä tulee näkymään reseptit listana
+<h3>Reseptit:</h3>
 <ul>
-<li> <a href="/recipe/1"> resepti 1</a>
-<li> <a href="/recipe/2"> resepti 2</a>
-<li> <a href="/recipe/3"> resepti 3</a>
-<li> jne
-</ul>
+    {% for recipe in recipes %}
+    <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a>
+    {% endfor %}
+    </ul>
+<p>

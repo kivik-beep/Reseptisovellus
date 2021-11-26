@@ -66,7 +66,8 @@ def add_recipe():
 
 @app.route("/recipes")
 def recipes():
-    return render_template("recipes.html")
+    current_recipes= foods.get_all()
+    return render_template("recipes.html", recipes=current_recipes)
 
 @app.route("/recipe/<int:id>")
 def recipe(id):

@@ -3,8 +3,9 @@ from db import db
 from flask import session
 
 def get_all():
-    sql = "SELECT id, name FROM recipes"
+    sql = "SELECT id, name FROM recipe"
     return db.session.execute(sql).fetchall()
+    
 
 def add_recipe(name, serves, instructions, active, passive, incredients):
     sql = """INSERT INTO recipe (name, instructions, serves, active, passive) 
