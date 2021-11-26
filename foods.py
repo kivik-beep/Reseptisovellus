@@ -34,5 +34,12 @@ def get_recipe(id):
     data = result[0]
     #name=str(data), serves="2", active="1",passive="2",instructions="Valmista ruoka näin"
     return data
-    
 
+def add_favourite(user_id, recipe_id):
+    sql = "INSERT INTO favorites (user_id, recipe_id) VALUES (:user, :recipe)"
+    db.session.execute(sql, {"user_id":user_id, "recipe_id":recipe_id})
+    return 
+    
+def get_favourites(id):
+    sql = "SELECT r.id, r.name FROM favorites as f, recipe as r WHERE f.recipe_id = r.id AND f.user_id=:user_id"
+    return db.session.execute(sql, {"user_id": id}).fetchall()

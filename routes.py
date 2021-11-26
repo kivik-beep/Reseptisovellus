@@ -1,6 +1,8 @@
+from operator import truediv
 from app import app
-import users, foods
 from flask import render_template, request, redirect
+import users
+import foods
 
 @app.route("/")
 def index():
@@ -43,7 +45,7 @@ def welcome():
 
 @app.route("/favourites")
 def favourites():
-    return render_template("favourites.html")
+    return render_template("favourites.html", name=users.username(), favrecipes=foods.get_favourites(users.user_id()))
 
 @app.route("/new", methods=["get", "post"])
 def add_recipe():
@@ -71,8 +73,8 @@ def recipes():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-    data = foods.get_recipe(id)
-    return render_template("recipe.html", name=data[1], serves=data[3], active=data[3],passive=data[4], total=data[3]+data[4], instructions=data[2])
+        data = foods.get_recipe(id)
+        return render_template("recipe.html", id=id, name=data[1], serves=data[3], active=data[3],passive=data[4], total=data[3]+data[4], instructions=data[2])
 
 @app.route("/logout")
 def logout():

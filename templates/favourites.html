@@ -1,1 +1,19 @@
-täällä lukee käyttäjän suosikkireseptit listana :)
+{% if session.user_id %}
+Hei {{ name }}!
+<h3>Sinun suosikkireseptisi:</h3>
+<ul>
+    {% for r in favrecipes %}
+    <li><a href="/deck/{{ r_id }}">{{ r.name }}</a>
+    {% endfor %}
+    </ul>
+<p>
+<p>
+{% else %}
+Tällä sivulla on kirjautuneen käyttäjän toimintoja.
+<p>
+Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
+<p>
+{% endif %}
+<a href="/">Palaa etusivulle</a>
+
+
