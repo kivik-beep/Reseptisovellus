@@ -47,3 +47,7 @@ def get_favourites(id):
 def get_mine(id):
     sql = "SELECT id, name FROM recipe WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id": id}).fetchall()
+
+def get_count():
+    sql = "SELECT COUNT(*) FROM recipe"
+    return db.session.execute(sql).fetchone()[0]

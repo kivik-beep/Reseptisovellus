@@ -74,8 +74,12 @@ def recipes():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-        data = foods.get_recipe(id)
-        return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[5],passive=data[5], total=data[4]+data[5], instructions=data[3])
+        amount = foods.get_count()
+        if amount > id:
+            data = foods.get_recipe(id)
+            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[5],passive=data[5], total=data[4]+data[5], instructions=data[3])
+        else:
+            return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 
 @app.route("/my_recipes")
 def my_recipes():
