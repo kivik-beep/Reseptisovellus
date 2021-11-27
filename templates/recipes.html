@@ -5,8 +5,12 @@
 <h1>Reseptit</h1>
 <p>
 Tähän tulee hakutoiminto
+<br>
+<input type="text" name="incredient" placeholder="ainesosa"><input type="submit" value="Hae">
+<br>
+tähän tulee linkkejä tuoteryhmiin
 <p>
-<h3>Reseptit:</h3>
+<h2>Kaikki reseptit:</h2>
 <ul>
     {% for recipe in recipes %}
     <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a>

@@ -1,27 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if session.user_id %}
 <h2>Lisää resepti</h2>
 <form action="/new" method="POST">
+  <p class="error">{{ error1 }}</p>
 nimi:
 <input type="text" name="name">
+
 <br>
+<p class="error">{{ error2 }}</p>
 annoksia: <input type="number" name="serves">
 <br> 
 valmistusaika: 
 <input type="number" name="active" placeholder="aktiivinen">
 <br>
-<input type="number" name="passive" placeholder="passiivinen">
+<input type="number" name="passive" placeholder="passiivinen" >
 <br>
+<p class="error">{{ error3 }}</p>
 <p>Ainekset:<br>
 <textarea name="incredients" rows="8" cols="40" maxlength="10000">
 </textarea></p>
 <br>
+<p class="error">{{ error4 }}</p>
 <p>Ohje:<br>
 <textarea name="instructions" rows="18" cols="40" maxlength="10000">
 </textarea></p>
-  
 <input type="submit" value="Lähetä">
 </form>
 <p>
 <a href="/welcome">Palaa takaisin</a>
+{% else %}
+<h3>Tällä sivulla on sisäänkirjautuneen käyttäjän toimintoja</h3>
+<div class="logblock"> 
+    <h3 class="loglink">Sisäänkirjautuneena voit</h3>
+    <ul>
+      <li>Luoda uusia reseptejä</li>
+      <li>Merkitä reseptejä suosikiksi</li>
+    </ul>
+    <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
+    <br>
+    <a href="/register" class="loglink">Luo käyttäjätunnus</a>
+  </div>
+{% endif %}
 {% endblock %}

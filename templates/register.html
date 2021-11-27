@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <form action="/register" method="POST">
-<p>Uusi käyttäjätunnus</p>
+<h2>Uusi käyttäjätunnus</h2>
 <p>
-{{ error }}
+<p class="error">{{ error }}</p>
 <p>
 Anna nimimerkki:
 <input type="text" name="username">

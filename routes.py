@@ -61,6 +61,28 @@ def add_recipe():
         incredients = request.form["incredients"]
         instructions = request.form["instructions"]
 
+        error1 = ""
+        error2 = ""
+        error3 = ""
+        error4 = ""
+
+        if name == "":
+            error1="Anna reseptille nimi"
+        if bool(foods.is_taken(name)):
+            error1="nimi on jo varattu, keksi toinen tai lisää vaikka numero"
+        if instructions == "":
+            error4="Anna reseptille valmistusohjeet"
+        if serves == "":
+            error2="Anna reseptille annosmäärä"
+        if incredients == "":
+            error3="Anna reseptille ainekset"
+        if active == "":
+            active = 0
+        if passive == "":
+            passive = 0
+        if error1 != "" or error2 != "" or error3 != "" or error4 != "":
+            return render_template("new.html", error1=error1, error2=error2, error3=error3, error4=error4)
+
         recipe_id = foods.add_recipe(name,user_id,serves,instructions,active,passive,incredients)
         return redirect("/recipe/"+str(recipe_id))
     else:
@@ -74,10 +96,9 @@ def recipes():
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-        amount = foods.get_count()
-        if amount > id:
+        if foods.is_created(id):
             data = foods.get_recipe(id)
-            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[5],passive=data[5], total=data[4]+data[5], instructions=data[3])
+            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3])
         else:
             return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 

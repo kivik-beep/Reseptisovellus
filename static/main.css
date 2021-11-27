@@ -65,6 +65,9 @@ td, th {
 .loglink {
   color: #006847
 }
+.error {
+  color: Red
+}
 
 .colors {
 	#FF8C00 tumma oranssi 	-	linkit, 

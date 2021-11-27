@@ -48,6 +48,16 @@ def get_mine(id):
     sql = "SELECT id, name FROM recipe WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id": id}).fetchall()
 
+def is_created(id):
+    sql = "SELECT id FROM recipe WHERE id=:id"
+    result = db.session.execute(sql, {"id": id}).fetchall()
+    return bool(result)
+
 def get_count():
     sql = "SELECT COUNT(*) FROM recipe"
     return db.session.execute(sql).fetchone()[0]
+
+def is_taken(name):
+    sql = "SELECT id FROM recipe WHERE name=:name"
+    result = db.session.execute(sql, {"name": name}).fetchall()
+    return bool(result)
