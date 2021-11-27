@@ -2,12 +2,25 @@ body {
     margin: auto;
     max-width: 45em;
     font-family: 'Helvetica', 'Arial', sans-serif;
-    color: Indigo;
-    background-color: Snow;
+    color: #006847;
+    background-color: Ivory;
+}
+h1 {
+	color: #006847;
+	text-shadow: 2px 2px 2px #DCDCDC;  
 }
 
-h1 {
-	color: Teal;
+h2 {
+	color: #006847;
+}
+
+h3, h4, h5 {
+	color: #FF8C00;
+	
+}
+
+a {
+	color: #FF8C00;
 }
 
 table {
@@ -19,4 +32,50 @@ td, th {
     border-color: black;
     border-width: 1px;
     padding: 0.5rem:
+}
+
+.header {
+  background-color: #222B35;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 100px;
+}
+
+.box1 {
+  color: white;
+  text-shadow: 2px 2px 2px #006847;  
+  margin: 10px;
+  grid-column: 1/3;
+  grid-row:1
+}
+
+.box2 {
+  color: #ff8c00;
+  text-align: right;
+  margin: 25px;
+  grid-column: 2/3:
+  grid-row: 2;
+}
+
+.logblock {
+  background-color: #FFC45D;
+  color: #222B35;
+  padding: 1rem;
+}
+.loglink {
+  color: #006847
+}
+
+.colors {
+	#FF8C00 tumma oranssi 	-	linkit, 
+	#FFC45D	vaalea oranssi 	-	sisäänkirjautumisinfolaatikko tausta
+	#008B8B tumma syaani 	-	alaotsikot
+	#006847 tumma vihreä	- 	tekstit
+	#222B35 harmaa musta	-	yläosan blokki
+}
+
+footer {
+  background-color: black;
+  color: white;
+  padding: 0.5rem;
 }

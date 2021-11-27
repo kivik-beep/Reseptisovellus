@@ -1,13 +1,24 @@
 <!doctype html>
 <link rel="stylesheet" href="/static/main.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<div class="header">
 <title>Reseptisovellus</title>
-<h1>Reseptisovellus</h1>
-<a href="/">Etusivulle</a>
-{% if session.user_id %}
-<a href="/welcome">Oma sivu</a> <a href="/logout"> Kirjaudu ulos</a>
-{% else %}
-<a href="/login">Kirjaudu sisään</a> <a href="/register">Luo uusi tunnus</a>
-{% endif%}
-<hr>
+    <div class="box box1"><h1><a href="/" class="box box1">Reseptisovellus</a></div></h1>
+    <div class="box box2">
+        {% if session.user_id %}
+        <a href="/welcome">Oma sivu</a>
+        <br> 
+        <br>
+        <a href="/logout"> Kirjaudu ulos</a>
+        {% else %}
+        <a href="/login">Kirjaudu sisään</a>
+        <br> 
+        <br>
+        <a href="/register">Luo uusi tunnus</a>
+        {% endif%}
+        <br>
+    </div>
+</div>
 {% block content %}{% endblock %}
+<br>
+<footer>Tsoha harjoitustyö Kivi 2021</footer>

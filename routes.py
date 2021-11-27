@@ -6,7 +6,7 @@ import foods
 
 @app.route("/")
 def index():
-    return render_template("index.html") 
+    return render_template("index.html", name=users.username()) 
 
 @app.route("/register", methods=["GET","POST"])
 def register():

@@ -2,12 +2,26 @@
 {% block content %}
 
 <title>Reseptisovellus</title>
-<h1>Tervetuloa!</h1>
-<a href="/recipes">reseptit</a>
-<p>
+
 {% if session.user_id %}
-Olet kirjautunut sisään.
+<h1>Tervetuloa {{name}}!</h1>
+<p>Olet kirjautunut sisään.</p>
+<h2><a href="/recipes">Reseptit</a></h2>
+<h2><a href="/welcome">Oma sivu</a></h2>
 <p>
+{% else %}
+<h1>Tervetuloa!</h1>
+<h2><a href="/recipes">Reseptit</a></h2>
+<div class="logblock"> 
+  <h3 class="loglink">Sisäänkirjautuneena voit</h3>
+  <ul>
+    <li>Luoda uusia reseptejä</li>
+    <li>Merkitä reseptejä suosikiksi</li>
+  </ul>
+  <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
+  <br>
+  <a href="/register" class="loglink">Luo uusi käyttäjätunnus</a>
+</div>
 {% endif %}
 
 {% endblock %}
