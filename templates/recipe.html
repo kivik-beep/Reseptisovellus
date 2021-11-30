@@ -14,7 +14,11 @@ tähän toiminnallisuus joka lisää reseptin suosikkeihin
 <br>
 Valmistusaika {{ total }}h (aktiivista {{ active }}h, passiivista {{ passive }}h)
 <h3>Ainekset:</h3>
-ei ole vielä toiminnassa ainesten haku 
+<ul>
+    {% for incredient in incredients %}
+    <li>{{ incredient.quantity }} {{ incredient.scale }} {{ incredient.name }}
+    {% endfor %}
+</ul>
 <p>
 <h3>Työvaiheet:</h3>
 {{ instructions }}

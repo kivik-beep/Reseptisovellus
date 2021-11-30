@@ -75,3 +75,8 @@ def is_taken(name):
     sql = "SELECT id FROM recipe WHERE name=:name"
     result = db.session.execute(sql, {"name": name}).fetchall()
     return bool(result)
+
+def get_incredients(recipe_id):
+    sql = "SELECT I.quantity, I.scale, N.name FROM incredients as I, incredient as N WHERE I.incredient_id = N.id AND I.recipe_id=:recipe_id"
+    incredients = db.session.execute(sql, {"recipe_id": recipe_id}).fetchall()
+    return incredients
