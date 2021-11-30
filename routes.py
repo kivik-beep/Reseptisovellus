@@ -81,7 +81,7 @@ def add_recipe():
         if passive == "":
             passive = 0
         if error1 != "" or error2 != "" or error3 != "" or error4 != "":
-            return render_template("new.html", error1=error1, error2=error2, error3=error3, error4=error4)
+            return render_template("new.html", error1=error1, error2=error2, error3=error3, error4=error4, name=name, serves=serves, active=active, passive=passive, incredients=incredients, instructions=instructions)
 
         recipe_id = foods.add_recipe(name,user_id,serves,instructions,active,passive,incredients)
         return redirect("/recipe/"+str(recipe_id))

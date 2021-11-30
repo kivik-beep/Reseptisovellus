@@ -1,6 +1,5 @@
 
 from db import db
-from flask import session
 
 def get_all():
     sql = "SELECT id, name FROM recipe"
@@ -17,8 +16,6 @@ def add_recipe(name, user_id, serves, instructions, active, passive, incredients
         if len(parts) != 3:
             continue
 
-            #tee ensin kysely onko ainesta olemassa, jos ei niin tee tämä 
-            #jos on niin poimi sen id
         quantity = parts[0]
         scale = parts[1]
         inc_name = parts[2]
