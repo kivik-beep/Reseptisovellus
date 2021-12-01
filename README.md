@@ -34,10 +34,20 @@ Suositeltavia reseptin tietoja on lisäksi ruuan tyyppi sekä valmistusaika (akt
 - Reseptisivulla voisi näkyä suosikkimerkintöjen määrä
 
 ### Välipalautusten sisällöt
-Välipalautus 1: Alustava suunnitelma
+#### Välipalautus 1: Suunnitelma
+Alustava suunnitelma
 
-Välipalautus 2: Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua sisään. Kirjautunut käyttäjä voi kirjautua ulos. Kirjautuneen käyttäjän silmille tarkoitetut sivut eivät näy kirjautumattomille käyttäjille.
+#### Välipalautus 2: Pohja ja sisäänkirjautuminen
+Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua sisään. Kirjautunut käyttäjä voi kirjautua ulos. Kirjautuneen käyttäjän silmille tarkoitetut sivut eivät näy kirjautumattomille käyttäjille.
 
-Välipalautus 3: Käyttäjä voi lisätä reseptin, kaikki reseptit ovat listana reseptit-sivulla. Käyttäjän omalta sivulta pääsee selaamaan käyttäjän suosikeiksi merkitsemiä, sekä itse lisäämiä reseptejä. (Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.)
+#### Välipalautus 3: Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.
+- Ohjelman värit ovat yhtenäiset ja CSS koodi luotu. Sovellus näyttää lähes tuotantoon soveltuvalta.
+- Käyttäjä voi lisätä reseptin, kaikki reseptit ovat listana reseptit-sivulla. Käyttäjän omalta sivulta pääsee selaamaan käyttäjän lisäämiä reseptejä.
+- Reseptin lisäämisen yhteydessä tapahtuva ainesosien lisääminen toimii. Reseptin sivulla ainesosat ovat listattuina. Reseptit-sivulla on hakutoiminto jolla voi etsiä tiettyä ruoka-ainetta sisältäviä reseptejä. 
+- Käyttäjä voi "tykätä" reseptistä, eli merkitä sen suosikikseen. Samasta napista suosikkireseptin voi merkitä ei-suosikiksi. Kirjautunut käyttäjä voi suosikit-sivulla selata suosikkireseptejään.
+- (käyttäjä voi muokata omia reseptejään)
+- (reseptille voi antaa tagejä joita voi etsiä ainesosien tapaan ja jotka on lueteltuna reseptit-sivulla)
+- (reseptin annosmäärää voi muokata, jolloin ainesten määrät muuttuvat)
+- (ylläpitäjän toiminnot - voi muokata kaikkia reseptejä - voi lisätä uuden yllääpitäjän)
 
-Loppupalautus: Viimeistely.
+#### Loppupalautus: Viimeistely.
