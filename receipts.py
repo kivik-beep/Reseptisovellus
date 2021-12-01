@@ -39,17 +39,18 @@ def get_receipt(id):
     data = result[0]
     return data
 
-def does_receipt_id_exist(id):
+def is_id_taken(id):
     sql = "SELECT id FROM recipe WHERE id=:id"
     result = db.session.execute(sql, {"id": id}).fetchall()
     return bool(result)
 
-def does_receipt_name_exist(name):
+def is_name_taken(name):
     sql = "SELECT id FROM recipe WHERE name=:name"
     result = db.session.execute(sql, {"name": name}).fetchall()
     return bool(result)
 
 
-def get_receipts_containing(incredient_id):
-    sql = "SELECT r.id, r.name FROM recipe as r, incredients as i WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"
+def get_all_containing(incredient_id):
+    sql = """SELECT r.id, r.name FROM recipe as r, incredients as i 
+            WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"""
     return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
