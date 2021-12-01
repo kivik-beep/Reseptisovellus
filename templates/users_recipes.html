@@ -6,7 +6,7 @@
 <h2>Käyttäjän {{ name }} {{ type }}reseptit:</h2>
 <ul>
     {% for r in recipes %}
-    <li><a href="/recipe/{{ r.id }}">{{ r.name }}</a> | <a href="/modify/{{ r.id }}"> muokkaa </a>
+    <li><a href="/recipe/{{ r.id }}">{{ r.name }}</a> {% if type == lisäämät %} | <a href="/modify/{{ r.id }}"> muokkaa </a> {% endif %}
     {% endfor %}
     </ul>
 <p>
