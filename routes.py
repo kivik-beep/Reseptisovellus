@@ -123,6 +123,12 @@ def recipe(id):
     else:
         return render_template("error.html", message = "Reseptiä ei ole vielä luotu!")
 
+@app.route("/modify/<int:id>", methods = ["GET", "POST"])
+def modify(id):
+    recipe = receipts.get_receipt(id)
+    incs = incredients.get_incredients(id)
+    return render_template("modify.html", recipe=recipe, incredients=incs)
+
 @app.route("/recipes", methods = ["GET", "POST"])
 def recipes():
     if request.method == "POST":
