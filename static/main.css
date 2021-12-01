@@ -96,3 +96,16 @@ footer {
    cursor: pointer;
    border-radius: 8px;
  }
+
+.input {
+  background-color: #f8deb1;
+  outline-color: #FF8C00;
+  color: #aa5e00;
+   padding: 6px 10px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 4px 4px;
+   border-radius: 8px;
+}

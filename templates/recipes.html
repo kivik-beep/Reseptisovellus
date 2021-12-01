@@ -2,16 +2,10 @@
 {% extends "layout.html" %}
 {% block content %}
 <form action="/recipes" method="POST">
-<p>
 <h1>Reseptit</h1>
-<p>
-Tähän tulee hakutoiminto
-<br>
-<input type="text" name="incredient" placeholder="ainesosa"><input type="submit" class="button" value="Hae">
+<input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" class="button" value="Hae">
 <p class="error">{{ error }}</p>
-<br>
-tähän tulee linkkejä tuoteryhmiin
-<p>
+<p>tähän tulee linkkejä tuoteryhmiin & jotain jolla ohjeita voi järjestää (nopein, pidetyin, kronologinen)</p>
 <h2>{{ list_heading }}</h2>
 <ul>
     {% for recipe in recipes %}
