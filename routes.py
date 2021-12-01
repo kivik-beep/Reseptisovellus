@@ -11,7 +11,7 @@ def index():
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html", error="")
+        return render_template("register.html")
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
@@ -45,13 +45,14 @@ def welcome():
 
 @app.route("/favourites")
 def favourites():
-    return render_template("favourites.html", name=users.username(), type="suosikki", recipes=foods.get_favourites(users.user_id()))
+    return render_template("users_recipes.html", name=users.username(), type="suosikki", recipes=foods.get_favourites(users.user_id()))
 
-@app.route("/new", methods=["get", "post"])
+@app.route("/my_recipes")
+def my_recipes():
+    return render_template("users_recipes.html", name=users.username(), type="lisäämät ", recipes=foods.get_mine(users.user_id()))
+
+@app.route("/new", methods=["GET", "POST"])
 def add_recipe():
-    if request.method == "GET":
-        return render_template("new.html")
-    
     if request.method == "POST":
         name = request.form["name"]
         user_id = users.user_id()
@@ -88,12 +89,17 @@ def add_recipe():
     else:
         return render_template("new.html")
 
+@app.route("/recipe/<int:id>")
+def recipe(id):
+        if foods.is_created(id):
+            data = foods.get_recipe(id)
+            incredient_data = foods.get_incredients(id)
+            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
+        else:
+            return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 
-@app.route("/recipes", methods=["get", "post"])
+@app.route("/recipes", methods=["GET", "POST"])
 def recipes():
-    if request.method == "GET":
-        current_recipes= foods.get_all()
-        return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
     if request.method == "POST":
         incredient = request.form["incredient"]
         if bool(foods.is_incredient(incredient)):
@@ -106,19 +112,6 @@ def recipes():
     else:
         current_recipes= foods.get_all()
         return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
-
-@app.route("/recipe/<int:id>")
-def recipe(id):
-        if foods.is_created(id):
-            data = foods.get_recipe(id)
-            incredient_data = foods.get_incredients(id)
-            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
-        else:
-            return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
-
-@app.route("/my_recipes")
-def my_recipes():
-    return render_template("favourites.html", name=users.username(), type="lisäämät ", recipes=foods.get_mine(users.user_id()))
 
 @app.route("/logout")
 def logout():
