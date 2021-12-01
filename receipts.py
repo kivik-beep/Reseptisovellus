@@ -7,7 +7,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
     recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
     for row in increds.split("\n"):
-        parts = row.strip().split("*")
+        parts = row.strip().split("+")
         if len(parts) != 3:
             continue
 
@@ -18,9 +18,14 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
         if incredients.is_incredient(inc_name):
             incredient_id = incredients.get_incredient(inc_name)[0]
         else:
-            incredient_id = incredients.add_incredient(inc_name, 0)
+            sql = "INSERT INTO incredient (name, type) VALUES (:inc_name, :type) RETURNING id"
+            incredient_id = db.session.execute(sql, {"inc_name":inc_name, "type":0}).fetchone()[0]
 
-        incredients.add_incredients_to_recipe(recipe_id, incredient_id, quantity, scale)
+        sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale) 
+                VALUES (:recipe_id, :incredient_id, :quantity, :scale)"""
+        db.session.execute(sql, {"recipe_id":recipe_id, "incredient_id": incredient_id, "quantity":quantity, "scale":scale})
+
+
 
     db.session.commit()
     return recipe_id
