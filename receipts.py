@@ -7,7 +7,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
     recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
     for row in increds.split("\n"):
-        parts = row.strip().split("-")
+        parts = row.strip().split("*")
         if len(parts) != 3:
             continue
 

@@ -10,8 +10,8 @@ CREATE TABLE recipe (
     user_id INTEGER REFERENCES users,
     instructions TEXT,
     serves INTEGER,
-    active INTEGER,
-    passive INTEGER
+    active DECIMAL,
+    passive DECIMAL
 );
 
 CREATE TABLE incredient (

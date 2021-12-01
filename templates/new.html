@@ -18,15 +18,13 @@ valmistusaika:
 <br>
 <p class="error">{{ error3 }}</p>
 <p>Ainekset:<br>
-  <p>Lisää ainekset muodossa määrä-pakkauskoko-nimi (esim 1-dl-vesi)</p>
-<textarea name="incredients" rows="8" cols="40" maxlength="10000" placeholder="1-litra-vesi">
-{{incredients}}
+  <p>Lisää ainekset muodossa määrä+pakkauskoko+nimi (esim 1.5+dl+vesi)</p>
+<textarea name="incredients" rows="8" cols="40" maxlength="10000" placeholder="1+litra+vesi">{{incredients}}
 </textarea></p>
 <br>
 <p class="error">{{ error4 }}</p>
 <p>Ohje:<br>
-<textarea name="instructions" rows="18" cols="40" maxlength="10000">
-{{instructions}}
+<textarea name="instructions" rows="18" cols="40" maxlength="10000">{{instructions}}
 </textarea></p>
 <input type="submit" value="Lähetä">
 </form>
