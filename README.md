@@ -42,6 +42,7 @@ Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua
 
 #### Välipalautus 3: Resepteihin liittyvät toiminnot sekä ylläpitäjän toiminnot. Ulkoasun parantelu.
 - Ohjelman ulkoasu on huoliteltu. 
+- Ohjelman komponentit on aseteltu niin, että sitä on mukava käyttää myös mobiilissa
 - Käyttäjä voi lisätä reseptin, kaikki reseptit ovat listana reseptit-sivulla. Käyttäjän omalta sivulta pääsee selaamaan käyttäjän lisäämiä reseptejä.
 - Reseptin lisäämisen yhteydessä tapahtuva ainesosien lisääminen toimii. Reseptin sivulla ainesosat ovat listattuina. Reseptit-sivulla on hakutoiminto jolla voi etsiä tiettyä ruoka-ainetta sisältäviä reseptejä. 
 - Käyttäjä voi "tykätä" reseptistä, eli merkitä sen suosikikseen. Samasta napista suosikkireseptin voi merkitä ei-suosikiksi. Kirjautunut käyttäjä voi suosikit-sivulla selata suosikkireseptejään.
