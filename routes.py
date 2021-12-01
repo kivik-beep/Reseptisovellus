@@ -89,10 +89,23 @@ def add_recipe():
         return render_template("new.html")
 
 
-@app.route("/recipes")
+@app.route("/recipes", methods=["get", "post"])
 def recipes():
-    current_recipes= foods.get_all()
-    return render_template("recipes.html", recipes=current_recipes)
+    if request.method == "GET":
+        current_recipes= foods.get_all()
+        return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
+    if request.method == "POST":
+        incredient = request.form["incredient"]
+        if bool(foods.is_incredient(incredient)):
+            incredient_id = foods.get_incredient(incredient)[0]
+            incredient_containing_recipes = foods.get_all_containing(incredient_id)
+            return render_template("recipes.html", list_heading="Reseptit joissa mukana "+str(incredient), recipes=incredient_containing_recipes)
+        else:
+            current_recipes= foods.get_all()
+            return render_template("recipes.html", error="Ei reseptejä joissa mukana aines "+str(incredient), list_heading="Kaikki reseptit:", recipes=current_recipes)
+    else:
+        current_recipes= foods.get_all()
+        return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
 
 @app.route("/recipe/<int:id>")
 def recipe(id):

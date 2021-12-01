@@ -80,3 +80,7 @@ def get_incredients(recipe_id):
     sql = "SELECT I.quantity, I.scale, N.name FROM incredients as I, incredient as N WHERE I.incredient_id = N.id AND I.recipe_id=:recipe_id"
     incredients = db.session.execute(sql, {"recipe_id": recipe_id}).fetchall()
     return incredients
+
+def get_all_containing(incredient_id):
+    sql = "SELECT r.id, r.name FROM recipe as r, incredients as i WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"
+    return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
