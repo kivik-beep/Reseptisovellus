@@ -1,12 +1,12 @@
 from db import db
+import incredients
 
-
-def add_recipe(name, user_id, serves, instructions, active, passive, incredients):
+def add_recipe(name, user_id, serves, instructions, active, passive, increds):
     sql = """INSERT INTO recipe (name, user_id, instructions, serves, active, passive) 
             VALUES (:name, :user_id, :instructions, :serves, :active, :passive) RETURNING id"""
     recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
 
-    for row in incredients.split("\n"):
+    for row in increds.split("\n"):
         parts = row.strip().split("-")
         if len(parts) != 3:
             continue
@@ -15,7 +15,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive, incredients
         scale = parts[1]
         inc_name = parts[2]
 
-        if bool(incredients.is_incredient(inc_name)):
+        if incredients.is_incredient(inc_name):
             incredient_id = incredients.get_incredient(inc_name)[0]
         else:
             incredient_id = incredients.add_incredient(inc_name, 0)
