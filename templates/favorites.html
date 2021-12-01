@@ -3,10 +3,10 @@
 {% if session.user_id %}
 <br>
 <a href="/welcome">Palaa omalle sivulle</a> <a href="/new">Lisää uusi resepti</a>
-<h2>Käyttäjän {{ name }} lisäämät reseptit:</h2>
+<h2>Käyttäjän {{ name }} suosikkireseptit:</h2>
 <ul>
     {% for r in recipes %}
-    <li><a href="/recipe/{{ r.id }}">{{ r.name }}</a> | <a href="/modify/{{ r.id }}"> muokkaa </a>
+    <li><a href="/recipe/{{ r.id }}">{{ r.name }}</a>
     {% endfor %}
     </ul>
 <p>

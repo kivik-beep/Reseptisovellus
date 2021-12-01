@@ -47,11 +47,11 @@ def welcome():
 
 @app.route("/favorites")
 def favorites():
-    return render_template("users_recipes.html", name=users.username(), type="suosikki", recipes=users_receipts.get_favorites(users.user_id()))
+    return render_template("favorites.html", name=users.username(), recipes=users_receipts.get_favorites(users.user_id()))
 
 @app.route("/my_recipes")
 def my_recipes():
-    return render_template("users_recipes.html", name=users.username(), type="lisäämät ", recipes=users_receipts.receipts_from(users.user_id()))
+    return render_template("users_recipes.html", name=users.username(), recipes=users_receipts.receipts_from(users.user_id()))
 
 @app.route("/new", methods = ["GET", "POST"])
 def add_recipe():
