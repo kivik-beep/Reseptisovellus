@@ -2,7 +2,9 @@ from operator import truediv
 from app import app
 from flask import render_template, request, redirect
 import users
-import foods
+import receipts
+import users_receipts
+import incredients
 
 @app.route("/")
 def index():
@@ -18,9 +20,9 @@ def register():
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("register.html", error="Salasanat eivät täsmää")
-        if len(username)<3:
+        if len(username) < 4:
             return render_template("register.html", error="Käyttäjänimen oltava vähintään neljän merkin mittainen")
-        if len(password1)<5:
+        if len(password1) < 5:
             return render_template("register.html", error="Salasanan oltava vähintään kuuden merkin mittainen")
         if users.register(username, password1):
             return redirect("/welcome")
@@ -43,13 +45,13 @@ def login():
 def welcome():
     return render_template("welcome.html")
 
-@app.route("/favourites")
-def favourites():
-    return render_template("users_recipes.html", name=users.username(), type="suosikki", recipes=foods.get_favourites(users.user_id()))
+@app.route("/favorites")
+def favorites():
+    return render_template("users_recipes.html", name=users.username(), type="suosikki", recipes=users_receipts.get_favorites(users.user_id()))
 
 @app.route("/my_recipes")
 def my_recipes():
-    return render_template("users_recipes.html", name=users.username(), type="lisäämät ", recipes=foods.get_mine(users.user_id()))
+    return render_template("users_recipes.html", name=users.username(), type="lisäämät ", recipes=users_receipts.all_added_by_user(users.user_id()))
 
 @app.route("/new", methods=["GET", "POST"])
 def add_recipe():
@@ -69,7 +71,7 @@ def add_recipe():
 
         if name == "":
             error1="Anna reseptille nimi"
-        if bool(foods.is_taken(name)):
+        if bool(receipts.does_receipt_name_exist(name)):
             error1="nimi on jo varattu, keksi toinen tai lisää vaikka numero"
         if instructions == "":
             error4="Anna reseptille valmistusohjeet"
@@ -84,7 +86,7 @@ def add_recipe():
         if error1 != "" or error2 != "" or error3 != "" or error4 != "":
             return render_template("new.html", error1=error1, error2=error2, error3=error3, error4=error4, name=name, serves=serves, active=active, passive=passive, incredients=incredients, instructions=instructions)
 
-        recipe_id = foods.add_recipe(name,user_id,serves,instructions,active,passive,incredients)
+        recipe_id = receipts.add_recipe(name,user_id,serves,instructions,active,passive,incredients)
         return redirect("/recipe/"+str(recipe_id))
     else:
         return render_template("new.html")
@@ -93,22 +95,22 @@ def add_recipe():
 def recipe(id):
     if request.method == "POST":
         print("pyyntö on post")
-        data = foods.get_recipe(id)
-        incredient_data = foods.get_incredients(id)
+        data = receipts.get_receipt(id)
+        incredient_data = incredients.get_incredients(id)
         user_id = users.user_id()
-        if foods.check_favourite(user_id, id):
+        if users_receipts.check_favorite(user_id, id):
             print("ruoka oli suosikki, poistetaan")
-            foods.remove_favourite(user_id, id)
+            users_receipts.remove_favorite(user_id, id)
             like = "tykkää"
         else:
             print("ei kuulunut suosikkeihin, lisätään")
-            foods.add_favourite(user_id, id)
+            users_receipts.add_favorite(user_id, id)
             like = "tykätty"
         return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
-    elif foods.is_created(id):
-        data = foods.get_recipe(id)
-        incredient_data = foods.get_incredients(id)
-        if foods.check_favourite(users.user_id(), id):
+    elif receipts.does_receipt_id_exist(id):
+        data = receipts.get_receipt(id)
+        incredient_data = incredients.get_incredients(id)
+        if users_receipts.check_favorite(users.user_id(), id):
             like = "tykätty"
         else:
             like = "tykkää"
@@ -120,15 +122,15 @@ def recipe(id):
 def recipes():
     if request.method == "POST":
         incredient = request.form["incredient"]
-        if bool(foods.is_incredient(incredient)):
-            incredient_id = foods.get_incredient(incredient)[0]
-            incredient_containing_recipes = foods.get_all_containing(incredient_id)
+        if bool(incredients.is_incredient(incredient)):
+            incredient_id = incredients.get_incredient(incredient)[0]
+            incredient_containing_recipes = receipts.get_receipts_containing(incredient_id)
             return render_template("recipes.html", list_heading="Reseptit joissa mukana "+str(incredient), recipes=incredient_containing_recipes)
         else:
-            current_recipes= foods.get_all()
+            current_recipes= receipts.get_all()
             return render_template("recipes.html", error="Ei reseptejä joissa mukana aines "+str(incredient), list_heading="Kaikki reseptit:", recipes=current_recipes)
     else:
-        current_recipes= foods.get_all()
+        current_recipes= receipts.get_all()
         return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
 
 @app.route("/logout")
