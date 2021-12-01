@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-{% if session.user_id %}
-tähän toiminnallisuus joka lisää reseptin suosikkeihin
 <br>
-
+<a href="/recipes">takaisin</a>
+<h1> {{ name }} </h1> 
+{% if session.user_id %}
+<form action="/recipe/{{id}}" method="POST">
+<input type="submit" class="button" value={{favorite_button}}>
+</form>
 {% endif %}
 
-<a href="/recipes">takaisin</a>
-<h1> {{ name }} </h1>
 <p>lisääjä: {{ creator }}</p>
 <p>
 <p>Annoksia: {{ serves }} 

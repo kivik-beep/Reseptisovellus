@@ -89,14 +89,32 @@ def add_recipe():
     else:
         return render_template("new.html")
 
-@app.route("/recipe/<int:id>")
+@app.route("/recipe/<int:id>", methods=["GET", "POST"])
 def recipe(id):
-        if foods.is_created(id):
-            data = foods.get_recipe(id)
-            incredient_data = foods.get_incredients(id)
-            return render_template("recipe.html", id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
+    if request.method == "POST":
+        print("pyyntö on post")
+        data = foods.get_recipe(id)
+        incredient_data = foods.get_incredients(id)
+        user_id = users.user_id()
+        if foods.check_favourite(user_id, id):
+            print("ruoka oli suosikki, poistetaan")
+            foods.remove_favourite(user_id, id)
+            like = "tykkää"
         else:
-            return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
+            print("ei kuulunut suosikkeihin, lisätään")
+            foods.add_favourite(user_id, id)
+            like = "tykätty"
+        return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
+    elif foods.is_created(id):
+        data = foods.get_recipe(id)
+        incredient_data = foods.get_incredients(id)
+        if foods.check_favourite(users.user_id(), id):
+            like = "tykätty"
+        else:
+            like = "tykkää"
+        return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1], creator=users.username_recipe(data[2]), serves=data[4], active=data[4],passive=data[5], total=data[4]+data[5], instructions=data[3], incredients=incredient_data)
+    else:
+        return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():

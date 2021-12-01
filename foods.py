@@ -50,13 +50,25 @@ def get_recipe(id):
     return data
 
 def add_favourite(user_id, recipe_id):
-    sql = "INSERT INTO favorites (user_id, recipe_id) VALUES (:user, :recipe)"
+    sql = "INSERT INTO favorites (user_id, recipe_id) VALUES (:user_id, :recipe_id)"
     db.session.execute(sql, {"user_id":user_id, "recipe_id":recipe_id})
+    db.session.commit()
     return 
     
 def get_favourites(id):
     sql = "SELECT r.id, r.name FROM favorites as f, recipe as r WHERE f.recipe_id = r.id AND f.user_id=:user_id"
     return db.session.execute(sql, {"user_id": id}).fetchall()
+
+def check_favourite(user_id, recipe_id):
+    sql = "SELECT * FROM favorites WHERE user_id=:user_id AND recipe_id=:recipe_id"
+    result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchall()
+    return bool(result)
+
+def remove_favourite(user_id, recipe_id):
+    sql = "DELETE FROM favorites WHERE user_id=:user_id AND recipe_id=:recipe_id"
+    db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id})
+    db.session.commit()
+    return
 
 def get_mine(id):
     sql = "SELECT id, name FROM recipe WHERE user_id=:user_id"
