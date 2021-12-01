@@ -52,7 +52,7 @@ td, th {
 .box2 {
   color: #ff8c00;
   text-align: right;
-  margin: 25px;
+  margin: 5px;
   grid-column: 3/3;
   grid-row: 1;
 }

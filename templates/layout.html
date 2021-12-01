@@ -6,15 +6,13 @@
     <div class="box box1"><h1><a href="/" class="box box1">Reseptisovellus</a></div></h1>
     <div class="box box2">
         {% if session.user_id %}
-        <a href="/welcome">Oma sivu</a>
-        <br> 
-        <br>
-        <a href="/logout"> Kirjaudu ulos</a>
+        <a href="/logout" class="button"> Kirjaudu ulos</a>
+        <a href="/welcome" class="button">Oma sivu</a>
+        <a href="/recipes" class="button">Reseptit</a>
         {% else %}
-        <a href="/login">Kirjaudu sisään</a>
-        <br> 
-        <br>
-        <a href="/register">Luo uusi tunnus</a>
+        <a href="/login" class="button">Kirjaudu sisään</a>
+        <a href="/register" class="button">Luo uusi tunnus</a>
+        <a href="/recipes" class="button">Reseptit</a>
         {% endif%}
         <br>
     </div>
