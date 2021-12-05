@@ -3,6 +3,7 @@
 
 Sovellus löytyy osoitteesta
 https://polar-hamlet-77249.herokuapp.com/
+- Tähän palautukseen lisätyistä ominaisuuksista ja seuraavaan palautukseen suunnitelluista lisäyksistä löytyy lista tämän sivun lopusta. 
 
 Sovellus sisältää reseptejä, joita voi hakutoiminnolla rajata ainesosan tai ruuan tyypin perusteella (keitto, kasvisruoka, jälkiruoka jne.). Reseptit ovat kaikkien luettavissa, mutta kirjautumalla sisään käyttäjä saa lisätoimintoja käyttöönsä. Ilman kirjautumista käyttäjä voi etsiä ja rajata reseptejä, sekä kirjautua tai luoda uuden tunnuksen. Kirjautunut käyttäjä voi lisätä uusia reseptejä ja muokata lisäämiään sekä merkitä reseptin suosikiksi.
 
@@ -56,6 +57,8 @@ Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua
 - Käyttäjä voi järjestää reseptilistaa (aika, suosio, ainesten määrä)
 
 #### Loppupalautus: Viimeistely
+Listan järjestys reseptit-sivulla toimii
+
 Käyttäjä voi muokata syöttämäänsä reseptiä.
 Tarvittavilta sivuilta löytyy tokenit jotka estää käyttäjätilin kaappauksen.
 
