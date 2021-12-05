@@ -117,7 +117,7 @@ def recipe(id):
         else:
             like = "tykkää"
         return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1], creator=users.username_recipe(data[2]), 
-                                serves=data[4], active=data[4], passive=data[5], total= data[4] + data[5], instructions=data[3], 
+                                serves=data[4], active=data[5], passive=data[6], total= data[5] + data[6], instructions=data[3], 
                                 incredients=incredient_data)
     else:
         return render_template("error.html", message = "Reseptiä ei ole vielä luotu!")
