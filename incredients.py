@@ -6,6 +6,9 @@ def add_incredient(name, type):
     incredient_id = db.session.execute(sql, {"inc_name":name, "type":type}).fetchone()[0]
     return incredient_id
 
+def remove_incredient(id):
+    return
+
 def add_incredients_to_recipe(recipe_id, incredient_id, quantity, scale):
     sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale) 
         VALUES (:recipe_id, :incredient_id, :quantity, :scale)"""

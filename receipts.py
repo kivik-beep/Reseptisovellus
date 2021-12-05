@@ -59,3 +59,19 @@ def get_all_containing(incredient_id):
     sql = """SELECT r.id, r.name FROM recipe as r, incredients as i 
             WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"""
     return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
+    
+# different recipe orders
+def all_order_by_favorite():
+    sql = """SELECT r.id, r.name FROM recipe as r, favorites as f 
+            WHERE r.id = f.recipe_id GOUP BY r.id ORDER BY COUNT(f.recipe_id)"""
+    # korjaa hakua - palauttaa vain ne joissa on suosikkimerkintöjä?
+    return db.session.execute(sql).fetchall()
+
+def all_order_by_inc_quantity():
+    sql = """SELECT r.id, r.name FROM recipe as r, incredients as I 
+            WHERE r.id = I.recipe_id ORDER BY COUNT(i.recipe_id)"""
+    return db.session.execute(sql).fetchall()
+
+def all_order_by_time():
+    sql = "SELECT id, name FROM recipe ORDER BY (active + passive)"
+    return db.session.execute(sql).fetchall()
