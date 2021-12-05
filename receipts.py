@@ -62,8 +62,8 @@ def get_all_containing(incredient_id):
     
 # different recipe orders
 def all_order_by_favorite():
-    sql = """SELECT r.id, r.name FROM recipe as r, favorites as f 
-            WHERE r.id = f.recipe_id GOUP BY r.id ORDER BY COUNT(f.recipe_id)"""
+    sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f 
+    ON r.id = f.recipe_id GOUP BY r.id ORDER BY COUNT(f.recipe_id)"""
     # korjaa hakua - palauttaa vain ne joissa on suosikkimerkintöjä?
     return db.session.execute(sql).fetchall()
 
