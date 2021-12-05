@@ -52,7 +52,17 @@ Sovelluksen pohja on valmis. Käyttäjä voi luoda uuden tunnuksen tai kirjautua
 - Käyttäjä voi lisätä reseptin, kaikki reseptit ovat listana reseptit-sivulla. Käyttäjän omalta sivulta pääsee selaamaan käyttäjän lisäämiä reseptejä.
 - Reseptin lisäämisen yhteydessä tapahtuva ainesosien lisääminen toimii. Reseptin sivulla ainesosat ovat listattuina. Reseptit-sivulla on hakutoiminto jolla voi etsiä tiettyä ruoka-ainetta sisältäviä reseptejä. 
 - Käyttäjä voi "tykätä" reseptistä, eli merkitä sen suosikikseen. Samasta napista suosikkireseptin voi merkitä ei-suosikiksi. Kirjautunut käyttäjä voi suosikit-sivulla selata suosikkireseptejään.
-- (käyttäjä voi muokata omia reseptejään)
+- On olemassa sivu ja linkit joissa käyttäjä pääsee muokkaamaan reseptejään
+- Käyttäjä voi järjestää reseptilistaa (aika, suosio, ainesten määrä)
 
-#### Loppupalautus: Viimeistely.
-Ulkoasun viimeistely, haku ja reseptin ainesosien syöttö toimii pienillä kirjaimilla, reseptille voi antaa tagejä joita voi etsiä ainesosien tapaan ja jotka on lueteltuna reseptit-sivulla
+#### Loppupalautus: Viimeistely
+Käyttäjä voi muokata syöttämäänsä reseptiä.
+Tarvittavilta sivuilta löytyy tokenit jotka estää käyttäjätilin kaappauksen.
+
+
+Ulkoasun viimeistely.
+Haku ja reseptin ainesosien syöttö - tällä hetkellä reagoi kirjainkokoon. Korjataan että kaikki on pienellä.
+
+Haku hyväksyy syötteenä myös käyttäjänimen ja näyttää tietyn käyttäjän lisäämät reseptit.
+Reseptille voi antaa tagejä joita voi etsiä ainesosien tapaan ja jotka on lueteltuna reseptit-sivulla.
+
