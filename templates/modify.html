@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 Täällä voi muokata syöttämäänsä reseptiä
 <br>
 nimi = {{ recipe[1] }}
@@ -5,3 +7,5 @@ nimi = {{ recipe[1] }}
 ohje = {{ recipe[2] }}
 <br>
 jne
+{% endblock %}
+
