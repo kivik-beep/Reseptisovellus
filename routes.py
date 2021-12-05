@@ -71,6 +71,8 @@ def add_recipe():
 
         if name == "":
             error1="Anna reseptille nimi"
+        if len(name)> 20:
+            error1="Nimi saa olla enintään 20 merkkiä pitkä"
         if bool(receipts.is_name_taken(name)):
             error1 = "nimi on jo varattu, keksi toinen tai lisää vaikka numero"
         if instructions == "":
@@ -95,20 +97,17 @@ def add_recipe():
 @app.route("/recipe/<int:id>", methods = ["GET", "POST"])
 def recipe(id):
     if request.method == "POST":
-        print("pyyntö on post")
         data = receipts.get_receipt(id)
         incredient_data = incredients.get_incredients(id)
         user_id = users.user_id()
         if users_receipts.is_favorite(user_id, id):
-            print("ruoka oli suosikki, poistetaan")
             users_receipts.remove_favorite(user_id, id)
             like = "tykkää"
         else:
-            print("ei kuulunut suosikkeihin, lisätään")
             users_receipts.add_favorite(user_id, id)
             like = "tykätty"
         return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1], creator=users.username_recipe(data[2]), 
-                                serves=data[4], active=data[4],passive=data[5], total= data[4] + data[5], instructions=data[3], 
+                                serves=data[4], active=data[5],passive=data[6], total= data[5] + data[6], instructions=data[3], 
                                 incredients=incredient_data)
     elif receipts.is_id_taken(id):
         data = receipts.get_receipt(id)
@@ -132,7 +131,7 @@ def modify(id):
 @app.route("/recipes", methods = ["GET", "POST"])
 def recipes():
     if request.method == "POST":
-        incredient = request.form["incredient"]
+        incredient = request.form["incredient"].lower()
         if bool(incredients.is_incredient(incredient)):
             incredient_id = incredients.get_incredient(incredient)[0]
             incredient_containing_recipes = receipts.get_all_containing(incredient_id)

@@ -13,7 +13,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
 
         quantity = parts[0]
         scale = parts[1]
-        inc_name = parts[2]
+        inc_name = parts[2].lower()
 
         if incredients.is_incredient(inc_name):
             incredient_id = incredients.get_incredient(inc_name)[0]
