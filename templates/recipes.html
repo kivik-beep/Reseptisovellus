@@ -9,14 +9,17 @@
 <p class="error">{{ error }}</p>
 <p>*tähän tulee linkit tageihin*</p>
 <h1>Reseptit</h1>
+<button class="button">uutuus</button>
+<button class="button">suosio</button>
+<button class="button">nopeus</button>
+<button class="button">ainesmäärä</button>
 
-
-<h2>{{ list_heading }}</h2>
-<ul>
+<ul id="list">
+    <h2 id="heading"></h2>
     {% for recipe in recipes %}
     <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a>
     {% endfor %}
-    </ul>
+</ul>
 <p>
 </form>
 {% endblock %}

@@ -136,14 +136,14 @@ def recipes():
             incredient_id = incredients.get_incredient(incredient)[0]
             incredient_containing_recipes = receipts.get_all_containing(incredient_id)
             return render_template("recipes.html", list_heading = "Reseptit joissa mukana " + str(incredient), recipes=incredient_containing_recipes)
-        else:
+        elif len(incredient) > 0:
             current_recipes = receipts.get_all()
             return render_template("recipes.html", error="Ei reseptejä joissa mukana aines " + str(incredient), list_heading="Kaikki reseptit:", 
                                     recipes = current_recipes)
     else:
         current_recipes = receipts.get_all()
         return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
-
+    
 @app.route("/logout")
 def logout():
     users.logout()

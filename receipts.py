@@ -31,7 +31,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
     return recipe_id
 
 def get_all():
-    sql = "SELECT id, name FROM recipe"
+    sql = "SELECT id, name FROM recipe ORDER BY id DESC"
     return db.session.execute(sql).fetchall()
 
 def count_receipts():
@@ -63,13 +63,12 @@ def get_all_containing(incredient_id):
 # different recipe orders
 def all_order_by_favorite():
     sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f 
-    ON r.id = f.recipe_id GOUP BY r.id ORDER BY COUNT(f.recipe_id)"""
-    # korjaa hakua - palauttaa vain ne joissa on suosikkimerkintöjä?
+    ON r.id = f.recipe_id GROUP BY r.id ORDER BY COUNT(f.recipe_id)"""
     return db.session.execute(sql).fetchall()
 
 def all_order_by_inc_quantity():
     sql = """SELECT r.id, r.name FROM recipe as r, incredients as I 
-            WHERE r.id = I.recipe_id ORDER BY COUNT(i.recipe_id)"""
+            WHERE r.id = I.recipe_id GROUP BY r.id ORDER BY COUNT(i.recipe_id)"""
     return db.session.execute(sql).fetchall()
 
 def all_order_by_time():
