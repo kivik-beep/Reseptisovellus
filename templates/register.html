@@ -1,20 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 <form action="/register" method="POST">
-<h2>Uusi käyttäjätunnus</h2>
+<h1>Uusi käyttäjätunnus</h1>
 <p>
 <p class="error">{{ e_name }}</p>
 <p>
-Anna nimimerkki:
-<input type="text" name="username">
+Anna nimimerkki: <input type="text" name="username">
 <p>
-Anna salasana:
-<p class="error">{{ e_match }}
-    {{ e_length }}</p>
-<input type="password" name="password1">
+<p class="error">{{ e_match }}{{ e_length }}</p>
+Anna salasana: <input type="password" name="password1">
 <p>
-Anna salasana uudelleen:
-<input type="password" name="password2">
+Anna salasana uudelleen: <input type="password" name="password2">
 <p>
 <input type="submit" class="button" value="Luo tunnus">
 </form>

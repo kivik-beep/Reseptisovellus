@@ -24,9 +24,9 @@ def register():
         if password1 != password2:
             error_match = "Salasanat eivät täsmää"
         if len(username) < 4:
-            error_name="Käyttäjänimen oltava vähintään neljän merkin mittainen"
+            error_name="Käyttäjänimen oltava vähintään neljän merkin mittainen. "
         if len(password1) < 5:
-            error_length="Salasanan oltava vähintään kuuden merkin mittainen"
+            error_length="Salasanan oltava vähintään kuuden merkin mittainen. "
         if error_name == "" or error_length == "" or error_match == "":
             return render_template("register.html", e_name = error_name, e_match = error_match, e_length = error_length)
         if users.register(username, password1):
