@@ -27,7 +27,7 @@ def register():
             error_name="Käyttäjänimen oltava vähintään neljän merkin mittainen"
         if len(password1) < 5:
             error_length="Salasanan oltava vähintään kuuden merkin mittainen"
-        if error_name != "" and error_length != "" and error_match != "":
+        if error_name == "" or error_length == "" or error_match == "":
             return render_template("register.html", e_name = error_name, e_match = error_match, e_length = error_length)
         if users.register(username, password1):
             return redirect("/welcome")
