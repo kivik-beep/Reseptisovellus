@@ -3,12 +3,14 @@
 <form action="/register" method="POST">
 <h2>Uusi käyttäjätunnus</h2>
 <p>
-<p class="error">{{ error }}</p>
+<p class="error">{{ e_name }}</p>
 <p>
 Anna nimimerkki:
 <input type="text" name="username">
 <p>
 Anna salasana:
+<p class="error">{{ e_match }}
+    {{ e_length }}</p>
 <input type="password" name="password1">
 <p>
 Anna salasana uudelleen:

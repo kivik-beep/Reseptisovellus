@@ -18,16 +18,21 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        error_name = ""
+        error_match = ""
+        error_length = ""
         if password1 != password2:
-            return render_template("register.html", error="Salasanat eivät täsmää")
+            error_match = "Salasanat eivät täsmää"
         if len(username) < 4:
-            return render_template("register.html", error="Käyttäjänimen oltava vähintään neljän merkin mittainen")
+            error_name="Käyttäjänimen oltava vähintään neljän merkin mittainen"
         if len(password1) < 5:
-            return render_template("register.html", error="Salasanan oltava vähintään kuuden merkin mittainen")
+            error_length="Salasanan oltava vähintään kuuden merkin mittainen"
+        if error_name != "" and error_length != "" and error_match != "":
+            return render_template("register.html", e_name = error_name, e_match = error_match, e_length = error_length)
         if users.register(username, password1):
             return redirect("/welcome")
         else:
-            return render_template("register.html", error="Rekisteröinti ei onnistunut, kokeile toista käyttäjänimeä")
+            return render_template("register.html", error_name="Rekisteröinti ei onnistunut, kokeile toista käyttäjänimeä")
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -132,14 +137,13 @@ def modify(id):
 def recipes():
     if request.method == "POST":
         incredient = request.form["incredient"].lower()
-        if bool(incredients.is_incredient(incredient)):
+        if incredients.is_incredient(incredient):
             incredient_id = incredients.get_incredient(incredient)[0]
             incredient_containing_recipes = receipts.get_all_containing(incredient_id)
             return render_template("recipes.html", list_heading = "Reseptit joissa mukana " + str(incredient), recipes=incredient_containing_recipes)
         elif len(incredient) > 0:
             current_recipes = receipts.get_all()
-            return render_template("recipes.html", error="Ei reseptejä joissa mukana aines " + str(incredient), list_heading="Kaikki reseptit:", 
-                                    recipes = current_recipes)
+            return render_template("recipes.html", error="Ei reseptejä joissa mukana aines " + str(incredient), list_heading="Kaikki reseptit:", recipes = current_recipes)
     else:
         current_recipes = receipts.get_all()
         return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=current_recipes)
