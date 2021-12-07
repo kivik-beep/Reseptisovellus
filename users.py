@@ -1,6 +1,6 @@
-from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
+from db import db
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
@@ -23,8 +23,8 @@ def username():
     name = str(result.fetchone())[2:-3]
     return name
 
-def username_recipe(id):
-    result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": id})
+def username_recipe(user_id):
+    result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": user_id})
     name = str(result.fetchone())[2:-3]
     return name
 

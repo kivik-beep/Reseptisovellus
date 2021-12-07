@@ -2,9 +2,11 @@ from db import db
 import incredients
 
 def add_recipe(name, user_id, serves, instructions, active, passive, increds):
-    sql = """INSERT INTO recipe (name, user_id, instructions, serves, active, passive) 
+    sql = """INSERT INTO recipe (name, user_id, instructions, serves, active, passive)
             VALUES (:name, :user_id, :instructions, :serves, :active, :passive) RETURNING id"""
-    recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id, "instructions":instructions, "serves":serves, "active": active, "passive":passive}).fetchone()[0]
+    recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id,
+                                         "instructions":instructions, "serves":serves,
+                                         "active": active, "passive":passive}).fetchone()[0]
 
     for row in increds.split("\n"):
         parts = row.strip().split("+")
@@ -21,9 +23,10 @@ def add_recipe(name, user_id, serves, instructions, active, passive, increds):
             sql = "INSERT INTO incredient (name, type) VALUES (:inc_name, :type) RETURNING id"
             incredient_id = db.session.execute(sql, {"inc_name":inc_name, "type":0}).fetchone()[0]
 
-        sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale) 
+        sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale)
                 VALUES (:recipe_id, :incredient_id, :quantity, :scale)"""
-        db.session.execute(sql, {"recipe_id":recipe_id, "incredient_id": incredient_id, "quantity":quantity, "scale":scale})
+        db.session.execute(sql, {"recipe_id":recipe_id, "incredient_id": incredient_id,
+                                 "quantity":quantity, "scale":scale})
 
 
 
@@ -38,36 +41,36 @@ def count_receipts():
     sql = "SELECT COUNT(*) FROM recipe"
     return db.session.execute(sql).fetchone()[0]
 
-def get_receipt(id):
+def get_receipt(r_id):
     sql = "SELECT * FROM recipe WHERE id=:id"
-    result = db.session.execute(sql, {"id": id}).fetchall()
+    result = db.session.execute(sql, {"id": r_id}).fetchall()
     data = result[0]
     return data
 
-def is_id_taken(id):
+def is_id_taken(r_id):
     sql = "SELECT id FROM recipe WHERE id=:id"
-    result = db.session.execute(sql, {"id": id}).fetchall()
+    result = db.session.execute(sql, {"id": r_id}).fetchall()
     return bool(result)
 
-def is_name_taken(name):
+def is_name_taken(r_name):
     sql = "SELECT id FROM recipe WHERE name=:name"
-    result = db.session.execute(sql, {"name": name}).fetchall()
+    result = db.session.execute(sql, {"name": r_name}).fetchall()
     return bool(result)
 
 
 def get_all_containing(incredient_id):
-    sql = """SELECT r.id, r.name FROM recipe as r, incredients as i 
+    sql = """SELECT r.id, r.name FROM recipe as r, incredients as i
             WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"""
     return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
-    
+
 # different recipe orders
 def all_order_by_favorite():
-    sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f 
+    sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f
     ON r.id = f.recipe_id GROUP BY r.id ORDER BY COUNT(f.recipe_id)"""
     return db.session.execute(sql).fetchall()
 
 def all_order_by_inc_quantity():
-    sql = """SELECT r.id, r.name FROM recipe as r, incredients as I 
+    sql = """SELECT r.id, r.name FROM recipe as r, incredients as I
             WHERE r.id = I.recipe_id GROUP BY r.id ORDER BY COUNT(i.recipe_id)"""
     return db.session.execute(sql).fetchall()
 
