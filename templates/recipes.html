@@ -5,14 +5,14 @@
 <h1>Reseptit</h1>
 
 <form action="/recipes" method="POST">
-<input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" class="button" value="Hae">
+<input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" name="search" class="button" value="Hae">
 <p class="error">{{ error }}</p>
 <p>*tähän tulee linkit tageihin*</p>
 <h1>Reseptit</h1>
-<button class="button">uutuus</button>
-<button class="button">suosio</button>
-<button class="button">nopeus</button>
-<button class="button">ainesmäärä</button>
+<input type="submit" name="Anew" class="button" value="uutuus"></input>
+<input type="submit" name="Apopular" class="button" value="suosio"></input>
+<input type="submit" name="Aspeed" class="button" value="nopeus"></input>
+<input type="submit" name="Aincredients" class="button" value="ainesmäärä"></input>
 
 <ul id="list">
     <h2 id="heading"></h2>

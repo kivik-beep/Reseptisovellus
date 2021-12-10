@@ -26,7 +26,7 @@ def register():
             error_name = "Käyttäjänimen oltava vähintään neljän merkin mittainen. "
         if len(password1) < 5:
             error_length = "Salasanan oltava vähintään kuuden merkin mittainen. "
-        if error_name == "" or error_length == "" or error_match == "":
+        if error_name != "" or error_length != "" or error_match != "":
             return render_template("register.html", e_name=error_name, e_match=error_match,
                                    e_length=error_length)
         if users.register(username, password1):
@@ -81,7 +81,7 @@ def add_recipe():
             error1 = "Anna reseptille nimi"
         if len(name) > 20:
             error1 = "Nimi saa olla enintään 20 merkkiä pitkä"
-        if bool(receipts.is_name_taken(name)):
+        if receipts.is_name_taken(name):
             error1 = "nimi on jo varattu, keksi toinen tai lisää vaikka numero"
         if instructions == "":
             error4 = "Anna reseptille valmistusohjeet"
@@ -143,18 +143,35 @@ def modify(id):
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():
     if request.method == "POST":
-        incredient = request.form["incredient"].lower()
-        if incredients.is_incredient(incredient):
-            incredient_id = incredients.get_incredient(incredient)[0]
-            incredient_containing_recipes = receipts.get_all_containing(incredient_id)
-            return render_template("recipes.html",
-                                   list_heading="Reseptit joissa mukana " + str(incredient),
-                                   recipes=incredient_containing_recipes)
-        elif len(incredient) > 0:
-            current_recipes = receipts.get_all()
-            return render_template("recipes.html",
-                                   error="Ei reseptejä joissa mukana aines " + str(incredient),
-                                   list_heading="Kaikki reseptit:", recipes=current_recipes)
+        if "Anew" in request.form:
+            rs = receipts.get_all()
+            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+        if "Apopular" in request.form:
+            rs = receipts.all_order_by_favorite()
+            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+        if "Aspeed" in request.form:
+            rs = receipts.all_order_by_time()
+            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+        if "Aincredients" in request.form:
+            rs = receipts.all_order_by_inc_quantity()
+            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+        if "search" in request.form:
+            incredient = request.form["incredient"].lower()
+            if incredients.is_incredient(incredient):
+                incredient_id = incredients.get_incredient(incredient)[0]
+                incredient_containing_recipes = receipts.get_all_containing(incredient_id)
+                return render_template("recipes.html",
+                                       list_heading="Reseptit joissa mukana " + str(incredient),
+                                       recipes=incredient_containing_recipes)
+            elif len(incredient) == 0:
+                current_recipes = receipts.get_all()
+                return render_template("recipes.html",
+                                       list_heading="Kaikki reseptit:", recipes=current_recipes)
+            else:
+                current_recipes = receipts.get_all()
+                return render_template("recipes.html",
+                                       error="Ei reseptejä joissa mukana aines " + str(incredient),
+                                       list_heading="Kaikki reseptit:", recipes=current_recipes)
     else:
         rs = receipts.get_all()
         return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
