@@ -24,7 +24,7 @@ CREATE TABLE incredient (
 CREATE TABLE incredients (
     recipe_id INTEGER REFERENCES recipe,
     incredient_id INTEGER REFERENCES incredient,
-    quantity DECIMAL,
+    quantity TEXT,
     scale TEXT
 );
 
