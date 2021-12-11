@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session, abort
 from app import app
 import users
 import receipts
@@ -64,6 +64,8 @@ def my_recipes():
 @app.route("/new", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
+        if (session["csrf_token"] != request.form["csrf_token"]):
+            return abort(403)
         name = request.form["name"]
         user_id = users.user_id()
         serve = request.form["serves"]
@@ -107,6 +109,8 @@ def add_recipe():
 @app.route("/recipe/<int:id>", methods=["GET", "POST"])
 def recipe(id):
     if request.method == "POST":
+        if (session["csrf_token"] != request.form["csrf_token"]):
+            return abort(403)
         data = receipts.get_receipt(id)
         incredient_data = incredients.get_incredients(id)
         user_id = users.user_id()
@@ -136,6 +140,8 @@ def recipe(id):
 
 @app.route("/modify/<int:id>", methods=["GET", "POST"])
 def modify(id):
+    #if (session["csrf_token"] != request.form["csrf_token"]):
+    #        return abort(403)
     rec = receipts.get_receipt(id)
     incs = incredients.get_incredients(id)
     return render_template("modify.html", recipe=rec, incredients=incs)

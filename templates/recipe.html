@@ -6,6 +6,7 @@
 {% if session.user_id %}
 <form action="/recipe/{{id}}" method="POST">
 <input type="submit" class="button" value={{favorite_button}}>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}
 

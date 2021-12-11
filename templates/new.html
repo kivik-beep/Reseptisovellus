@@ -27,6 +27,7 @@ valmistusaika:
 <textarea name="instructions" rows="18" cols="40" maxlength="10000">{{instructions}}
 </textarea></p>
 <input type="submit" class="button" value="Lähetä">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <p>
 <a href="/welcome">Palaa takaisin</a>

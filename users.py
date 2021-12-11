@@ -1,6 +1,7 @@
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
+import secrets
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
@@ -11,6 +12,7 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session["csrf_token"] = secrets.token_hex(16)
             return True
         else:
             return False
@@ -30,6 +32,7 @@ def username_recipe(user_id):
 
 def logout():
     del session["user_id"]
+    del session["csrf_token"]
 
 def register(username, password):
     hash_value = generate_password_hash(password)
