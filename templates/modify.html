@@ -38,6 +38,7 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <br>
 <br>
 <input type="submit" name="rady" class="button" value="Valmis">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 {% endblock %}

@@ -33,4 +33,7 @@ CREATE TABLE favorites (
     recipe_id INTEGER REFERENCES recipe
 );
 
-
+CREATE TABLE tag (
+    name TEXT,
+    recipe_id INTEGER REFERENCES recipe
+)
