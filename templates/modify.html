@@ -15,10 +15,10 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <h3>Ainekset</h3>
 <ul id="list">
     {% for inc in incredients %}
-    <li> <input type="text" style="width: 4em" name="r_inc" class="input" value={{inc.quantity}}>
-        <input type="text" size="6" name="r_inc" class="input" value={{inc.scale}}>
-        <input type="text" name="r_inc" class="input" value={{inc.name}}>
-        <input type="submit" name="inc{{inc.id}}" class="button" value="Muuta">
+    <li> <input type="text" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
+        <input type="text" size="6" name="s_{{inc[3]}}" class="input" value={{inc.scale}}>
+        <input type="text" name="n_{{inc[3]}}" class="input" value={{inc.name}}>
+        <input type="submit" name="{{inc[3]}}" class="button" value="Muuta">
     {% endfor %}
     <li> <input type="number" style="width: 4em" name="r_inc" class="input" placeholder="määrä">
         <input type="text" size="6" name="r_inc" class="input" placeholder="mittayks.">

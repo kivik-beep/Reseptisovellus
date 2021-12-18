@@ -1,4 +1,6 @@
+import re
 from flask import render_template, request, redirect, session, abort
+from flask_sqlalchemy import _record_queries
 from app import app
 import users
 import receipts
@@ -143,6 +145,7 @@ def recipe(id):
     else:
         return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 
+
 @app.route("/modify/<int:id>", methods=["GET", "POST"])
 def modify(id):
     if request.method == "POST":
@@ -159,9 +162,16 @@ def modify(id):
             receipts.change_passive_time(request.form["t_passive"], id)
         if "change_instructions" in request.form:
             instruction_error = receipts.change_instructions(request.form["instructions"], id)
-        if "inc" in request.form:
-            print("muutetaan aineksia")
-            print(request.form)
+        incredient_list = incredients.get_incredients(id)
+        for i in incredient_list:
+            print("etsitään",i)
+            print(i[3])
+            if str(i[3]) in request.form:
+                print("löytyi")
+                new_quantity = request.form["q_"+str(i[3])]
+                new_scale = request.form["s_"+str(i[3])]
+                new_name = request.form["n_"+str(i[3])]
+                incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
         if "new_inc" in request.form:
             print("lisätään uusi aines")
         
@@ -203,8 +213,8 @@ def recipes():
         tag_list = tags.tags_all()
         if "search" in request.form:
             incredient = request.form["incredient"].lower()
-            if incredients.is_incredient(incredient):
-                incredient_id = incredients.get_incredient(incredient)[0]
+            if incredients.is_used(incredient):
+                incredient_id = incredients.get_incredient(incredient)
                 incredient_containing_recipes = receipts.get_all_containing(incredient_id)
                 return render_template("recipes.html",
                                        list_heading="Reseptit joissa mukana " + str(incredient),
