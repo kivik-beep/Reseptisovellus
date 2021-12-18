@@ -97,8 +97,8 @@ def add_recipe():
                                    passive=passive, incredients=incs,
                                    instructions=instructions)
 
-        r_id = receipts.add_recipe(name, user_id, serve, instructions, active, passive, incs)
-        #incredients.add_incredients_to_recipe(incs, r_id)
+        r_id = receipts.add_recipe(name, user_id, serve, instructions, active, passive)
+        incredients.add_incredients(incs, r_id)
         return redirect("/recipe/"+str(r_id))
     else:
         return render_template("new.html")
