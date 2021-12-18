@@ -15,7 +15,7 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].lower()
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         error_name, error_match, error_length = "","",""
@@ -183,18 +183,9 @@ def modify(id):
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():
     if request.method == "POST":
-        if "Anew" in request.form:
-            rs = receipts.get_all()
-            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
-        if "Apopular" in request.form:
-            rs = receipts.all_order_by_favorite()
-            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
-        if "Aspeed" in request.form:
-            rs = receipts.all_order_by_time()
-            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
-        if "Aincredients" in request.form:
-            rs = receipts.all_order_by_inc_quantity()
-            return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+        recipes = receipts.get_all()
+        heading = "Kaikki reseptit:"
+        tag_list = tags.tags_all()
         if "search" in request.form:
             incredient = request.form["incredient"].lower()
             if incredients.is_incredient(incredient):
@@ -202,19 +193,34 @@ def recipes():
                 incredient_containing_recipes = receipts.get_all_containing(incredient_id)
                 return render_template("recipes.html",
                                        list_heading="Reseptit joissa mukana " + str(incredient),
-                                       recipes=incredient_containing_recipes)
-            elif len(incredient) == 0:
-                current_recipes = receipts.get_all()
+                                       recipes=incredient_containing_recipes, tags=tag_list)
+            if len(incredient) > 0:
                 return render_template("recipes.html",
-                                       list_heading="Kaikki reseptit:", recipes=current_recipes)
-            else:
-                current_recipes = receipts.get_all()
-                return render_template("recipes.html",
-                                       error="Ei reseptejä joissa mukana aines " + str(incredient),
-                                       list_heading="Kaikki reseptit:", recipes=current_recipes)
-    else:
-        rs = receipts.get_all()
-        return render_template("recipes.html", list_heading="Kaikki reseptit:", recipes=rs)
+                                       error="Ei reseptejä joissa mukana sana " + str(incredient),
+                                       list_heading="Kaikki reseptit:", recipes=recipes, tags=tag_list) 
+        if "Anew" in request.form:
+            heading = "Kaikki reseptit, uusin ensin:"
+        if "Apopular" in request.form:
+            recipes = receipts.all_order_by_favorite()
+            heading="Kaikki reseptit, suosituin ensin:"
+        if "Aspeed" in request.form:
+            recipes = receipts.all_order_by_time()
+            heading="Kaikki reseptit, nopein ensin:"
+        if "Aincredients" in request.form:
+            recipes = receipts.all_order_by_inc_quantity()
+            heading="Kaikki reseptit, ainesmäärän mukaan:"
+        for tag in tag_list:
+            if tag[0] in request.form:
+                recipes = receipts.all_with_tag(tag[0])
+                heading = "Reseptit tagilla "+tag[0]
+
+        return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
+    if request.method == "GET":
+        recipes = receipts.get_all()
+        heading = "Kaikki reseptit:"
+        tag_list = tags.tags_all()
+        return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
+
 
 @app.route("/logout")
 def logout():

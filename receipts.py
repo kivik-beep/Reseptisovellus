@@ -72,7 +72,7 @@ def get_all_containing(incredient_id):
     return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
 
 def all_with_tag(tag_name):
-    sql = """SELECT r.id, r.name FROM recipe as r, tags as t
+    sql = """SELECT r.id, r.name FROM recipe as r, tag as t
             WHERE t.recipe_id=r.id AND t.name=:tag_name"""
     return db.session.execute(sql, {"tag_name":tag_name}).fetchall()
 

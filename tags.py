@@ -29,6 +29,6 @@ def tags_for_recipe(recipe_id):
     return tags
 
 def tags_all():
-    sql = "SELECT name FROM tag"
+    sql = "SELECT name FROM tag GROUP BY name"
     tags = db.session.execute(sql).fetchall()
     return tags

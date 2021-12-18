@@ -7,8 +7,11 @@
 <form action="/recipes" method="POST">
 <input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" name="search" class="button" value="Hae">
 <p class="error">{{ error }}</p>
-<p>*tähän tulee linkit tageihin*</p>
-<h1>Reseptit</h1>
+{% for tag in tags %}
+<input type="submit" name="{{ tag[0] }}" class="button" value="{{tag[0]}}"></input>
+{% endfor %}
+<br>
+<h2>{{ list_heading }}</h2>
 <input type="submit" name="Anew" class="button" value="uutuus"></input>
 <input type="submit" name="Apopular" class="button" value="suosio"></input>
 <input type="submit" name="Aspeed" class="button" value="nopeus"></input>
