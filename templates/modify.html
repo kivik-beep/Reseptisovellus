@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if session.user_id == recipe[2] %}
 <h1>Muokkaa reseptiä {{ recipe[1] }}</h1>
 <form action="/modify/{{id}}" method="POST">
 <h3>Nimi</h3> <input type="text" name="r_name" class="input" value="{{ recipe[1] }}"><input type="submit" name="name" class="button" value="Muuta">
@@ -17,14 +18,12 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
     <li> <input type="text" style="width: 4em" name="r_inc" class="input" value={{inc.quantity}}>
         <input type="text" size="6" name="r_inc" class="input" value={{inc.scale}}>
         <input type="text" name="r_inc" class="input" value={{inc.name}}>
-        <input type="submit" name="inc{{inc.name}}" class="button" value="Muuta">
+        <input type="submit" name="inc{{inc.id}}" class="button" value="Muuta">
     {% endfor %}
     <li> <input type="number" style="width: 4em" name="r_inc" class="input" placeholder="määrä">
         <input type="text" size="6" name="r_inc" class="input" placeholder="mittayks.">
         <input type="text" name="r_inc" class="input" placeholder="nimi"><input type="submit" name="new_inc" class="button" value="Lisää">
 </ul>
-
-
 <br>
 <h4>Ohje</h4>
 <textarea name="instructions" rows="9" cols="40" maxlength="10000">{{recipe[3]}}
@@ -36,16 +35,21 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <h4>Lisää tagejä</h4>
 <ul id="list">
     {% for tag in tags %}
-    <li> {{ tag[0] }}
+    <li> <input type="text" name="name_{{tag[0]}}" class="input" value="{{tag[0]}}"><input type="submit" name="{{tag[0]}}" class="button" value="Muuta">
+        <input type="submit" name="remove_{{tag[0]}}" class="button" value="Poista">
     {% endfor %}
-<br><input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
+<br>
+<input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
 </ul>
 <br>
 <br>
 <input type="submit" name="ready" class="button" value="Valmis">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<br>
+<br>
+{% else %}
+<h3>Sinulla ei ole valtuuksia tämän reseptin muokkaamiseen</h3>
+{% endif %}
 </form>
-<br>
-<br>
 {% endblock %}
 

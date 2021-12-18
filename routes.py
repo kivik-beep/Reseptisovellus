@@ -164,8 +164,15 @@ def modify(id):
             print(request.form)
         if "new_inc" in request.form:
             print("lisätään uusi aines")
-        if "tag" in request.form:
-            print("Muutetaan tagia")
+        
+        tag_list = tags.tags_for_recipe(id)
+        for tag in tag_list:
+            if tag[0] in request.form:
+                new_tag = request.form["name_"+tag[0]]
+                tags.rename_tag(tag[0], new_tag, id)
+            if "remove_"+tag[0] in request.form:
+                tags.remove_tag(tag[0], id)
+
         if "new_tag" in request.form:
             tag = request.form["add_new_tag"]
             tags.add_tag(tag, id)

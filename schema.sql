@@ -22,7 +22,7 @@ CREATE TABLE incredient (
 
 
 CREATE TABLE incredients (
-    recipe_id INTEGER REFERENCES recipe,
+    recipe_id INTEGER REFERENCES recipe ON DELETE CASCADE,
     incredient_id INTEGER REFERENCES incredient,
     quantity DECIMAL,
     scale TEXT
@@ -36,5 +36,5 @@ CREATE TABLE favorites (
 CREATE TABLE tag (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    recipe_id INTEGER REFERENCES recipe
+    recipe_id INTEGER REFERENCES recipe ON DELETE CASCADE
 );
