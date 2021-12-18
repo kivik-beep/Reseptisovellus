@@ -20,6 +20,11 @@ def login(username, password):
 def user_id():
     return session.get("user_id", -1)
 
+def is_taken(username):
+    result = db.session.execute("SELECT * FROM users WHERE username=:username", {"username": username})
+    taken = len(result.fetchone()[0])
+    return taken
+
 def username():
     result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": user_id()})
     name = str(result.fetchone())[2:-3]
@@ -40,6 +45,7 @@ def register(username, password):
         sql = "INSERT INTO users (username,password) VALUES (:username,:password)"
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
+        return login(username, password)
     except:
         return False
-    return login(username, password)
+    
