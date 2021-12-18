@@ -58,10 +58,17 @@ def is_name_taken(r_name):
     return bool(result)
 
 
+# different recipe sortings
 def get_all_containing(incredient_id):
     sql = """SELECT r.id, r.name FROM recipe as r, incredients as i
             WHERE i.recipe_id=r.id AND i.incredient_id=:incredient_id"""
     return db.session.execute(sql, {"incredient_id":incredient_id}).fetchall()
+
+def all_with_tag(tag_name):
+    sql = """SELECT r.id, r.name FROM recipe as r, tags as t
+            WHERE t.recipe_id=r.id AND t.name=:tag_name"""
+    return db.session.execute(sql, {"tag_name":tag_name}).fetchall()
+
 
 # different recipe orders
 def all_order_by_favorite():
@@ -77,3 +84,4 @@ def all_order_by_inc_quantity():
 def all_order_by_time():
     sql = "SELECT id, name FROM recipe ORDER BY (active + passive)"
     return db.session.execute(sql).fetchall()
+

@@ -24,7 +24,7 @@ CREATE TABLE incredient (
 CREATE TABLE incredients (
     recipe_id INTEGER REFERENCES recipe,
     incredient_id INTEGER REFERENCES incredient,
-    quantity TEXT,
+    quantity DECIMAL,
     scale TEXT
 );
 
@@ -34,6 +34,7 @@ CREATE TABLE favorites (
 );
 
 CREATE TABLE tag (
+    id SERIAL PRIMARY KEY,
     name TEXT,
     recipe_id INTEGER REFERENCES recipe
-)
+);

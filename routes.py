@@ -74,34 +74,33 @@ def add_recipe():
         incs = request.form["incredients"]
         instructions = request.form["instructions"]
 
-        error1 = ""
-        error2 = ""
-        error3 = ""
-        error4 = ""
+        # e = error
+        name_e, servings_e, inc_e, inst_e = "", "", "", ""
 
         if name == "":
-            error1 = "Anna reseptille nimi"
+            name_e = "Anna reseptille nimi"
         if len(name) > 20:
-            error1 = "Nimi saa olla enintään 20 merkkiä pitkä"
+            name_e = "Nimi saa olla enintään 20 merkkiä pitkä"
         if receipts.is_name_taken(name):
-            error1 = "nimi on jo varattu, keksi toinen tai lisää vaikka numero"
+            name_e = "nimi on jo varattu, keksi toinen tai lisää vaikka numero"
         if instructions == "":
-            error4 = "Anna reseptille valmistusohjeet"
+            inst_e = "Anna reseptille valmistusohjeet"
         if serve == "":
-            error2 = "Anna reseptille annosmäärä"
+            servings_e = "Anna reseptille annosmäärä"
         if incs == "":
-            error3 = "Anna reseptille ainekset"
+            inc_e = "Anna reseptille ainekset"
         if active == "":
             active = 0
         if passive == "":
             passive = 0
-        if error1 != "" or error2 != "" or error3 != "" or error4 != "":
-            return render_template("new.html", error1=error1, error2=error2, error3=error3,
-                                   error4=error4, name=name, serves=serve, active=active,
+        if name_e != "" or servings_e != "" or inc_e != "" or inst_e != "":
+            return render_template("new.html", error1=name_e, error2=servings_e, error3=inc_e,
+                                   error4=inst_e, name=name, serves=serve, active=active,
                                    passive=passive, incredients=incs,
                                    instructions=instructions)
 
         r_id = receipts.add_recipe(name, user_id, serve, instructions, active, passive, incs)
+        #incredients.add_incredients_to_recipe(incs, r_id)
         return redirect("/recipe/"+str(r_id))
     else:
         return render_template("new.html")
@@ -140,11 +139,49 @@ def recipe(id):
 
 @app.route("/modify/<int:id>", methods=["GET", "POST"])
 def modify(id):
-    #if (session["csrf_token"] != request.form["csrf_token"]):
-    #        return abort(403)
-    rec = receipts.get_receipt(id)
-    incs = incredients.get_incredients(id)
-    return render_template("modify.html", recipe=rec, incredients=incs)
+    if request.method == "POST":
+        if (session["csrf_token"] != request.form["csrf_token"]):
+            return abort(403)
+        tags = incredients.tags_for_recipe(id)
+        rec = receipts.get_receipt(id)
+        incs = incredients.get_incredients(id)
+
+        if "name" in request.form:
+
+            print("muutetaan nimi")
+        if "serves" in request.form:
+
+            print("muutetaan annosmäärä")
+        if "active" in request.form:
+  
+            print("muutetaan aktiivista aikaa")
+        if "passive" in request.form:
+            print("muutetaan passiivista aikaa")
+
+        if "change_instructions" in request.form:
+            print("muutetaan ohje")
+        if "inc" in request.form:
+            print("muutetaan aineksia")
+        if "new_inc" in request.form:
+            print("lisätään uusi aines")
+        if "tag" in request.form:
+            print("Muutetaan tagia")
+        if "new_tag" in request.form:
+            tag = request.form["add_new_tag"]
+            incredients.add_tag(tag, id)
+            tags = incredients.tags_for_recipe(id)
+            return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=tags)
+        
+        if "ready" in request.form:
+            redirect("/recipe/"+str(id))         
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=tags)
+
+    else: 
+        rec = receipts.get_receipt(id)
+        incs = incredients.get_incredients(id)
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs)
+
+
 
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1>Muokkaa reseptiä {{ recipe[1] }}</h1>
-
+<form action="/modify/{{id}}" method="POST">
 <h3>Nimi</h3> <input type="text" name="r_name" class="input" value="{{ recipe[1] }}"><input type="submit" name="name" class="button" value="Muuta">
 <h3>Annoksia</h3> <input type="number" name="t_active" class="input" value="{{ recipe[4] }}"><input type="submit" name="serves" class="button" value="Muuta">
 <h3>Valmistusaika</h3>
@@ -12,10 +12,10 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <h3>Ainekset</h3>
 * ainekset tähän *
 <ul id="list">
-    {% for inc in incs %}
-    <li> <input type="text" name="r_inc" class="input" value="inc[0]">
-        <input type="text" name="r_inc" class="input" value="inc[1]">
-        <input type="text" name="r_inc" class="input" value="inc[2]"><input type="submit" name="inc" class="button" value="Muuta">
+    {% for inc in incredients %}
+    <li> <input type="text" name="r_inc" class="input" value={{inc.quantity}}>
+        <input type="text" name="r_inc" class="input" value={{inc.scale}}>
+        <input type="text" name="r_inc" class="input" value={{inc.name}}><input type="submit" name="inc" class="button" value="Muuta">
     {% endfor %}
     <li> <input type="number" style="width: 4em" name="r_inc" class="input" placeholder="määrä">
         <input type="text" size="6" name="r_inc" class="input" placeholder="mittayks.">
@@ -26,19 +26,20 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <br>
 <h4>Ohje</h4>
 <textarea name="instructions" rows="9" cols="40" maxlength="10000">{{recipe[3]}}
-</textarea><input type="submit" name="instructions" class="button" value="Muuta">
+</textarea><input type="submit" name="change_instructions" class="button" value="Muuta">
 <br>
 <h4>Lisää tagejä</h4>
 <ul id="list">
     {% for tag in tags %}
-    <li> <input type="text" name="r_tag" class="input" value="tag"><input type="submit" name="tag" class="button" value="Muuta">
+    <li> {{ tag[0] }}
     {% endfor %}
-    <li> <input type="text" name="r_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
+    <li> <input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
 </ul>
 <br>
 <br>
-<input type="submit" name="rady" class="button" value="Valmis">
+<input type="submit" name="ready" class="button" value="Valmis">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
 <br>
 <br>
 {% endblock %}
