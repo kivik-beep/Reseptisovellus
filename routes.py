@@ -4,6 +4,7 @@ import users
 import receipts
 import users_receipts
 import incredients
+import tags
 
 @app.route("/")
 def index():
@@ -17,23 +18,23 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        error_name = ""
-        error_match = ""
-        error_length = ""
+        error_name, error_match, error_length = "","",""
         if password1 != password2:
             error_match = "Salasanat eivät täsmää"
         if len(username) < 4:
             error_name = "Käyttäjänimen oltava vähintään neljän merkin mittainen. "
+        if users.is_taken(username):
+            error_name = "Käyttäjänimi on jo varattu"
         if len(password1) < 5:
             error_length = "Salasanan oltava vähintään kuuden merkin mittainen. "
         if error_name != "" or error_length != "" or error_match != "":
             return render_template("register.html", e_name=error_name, e_match=error_match,
-                                   e_length=error_length)
+                                   e_length=error_length, name=username)
         if users.register(username, password1):
             return redirect("/welcome")
         else:
             return render_template("register.html",
-                                   error_name="Rekisteröinti ei onnistunut, vaihda käyttäjänimeä")
+                                   e_name="Rekisteröinti ei onnistunut")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -89,10 +90,7 @@ def add_recipe():
             servings_e = "Anna reseptille annosmäärä"
         if incs == "":
             inc_e = "Anna reseptille ainekset"
-        if active == "":
-            active = 0
-        if passive == "":
-            passive = 0
+
         if name_e != "" or servings_e != "" or inc_e != "" or inst_e != "":
             return render_template("new.html", error1=name_e, error2=servings_e, error3=inc_e,
                                    error4=inst_e, name=name, serves=serve, active=active,
@@ -142,44 +140,43 @@ def modify(id):
     if request.method == "POST":
         if (session["csrf_token"] != request.form["csrf_token"]):
             return abort(403)
-        tags = incredients.tags_for_recipe(id)
-        rec = receipts.get_receipt(id)
-        incs = incredients.get_incredients(id)
-
+        name_error, serving_error, instruction_error = "", "", ""
         if "name" in request.form:
-
-            print("muutetaan nimi")
+            name_error = receipts.chage_name(request.form["r_name"], id)
         if "serves" in request.form:
-
-            print("muutetaan annosmäärä")
-        if "active" in request.form:
-  
-            print("muutetaan aktiivista aikaa")
-        if "passive" in request.form:
-            print("muutetaan passiivista aikaa")
-
+            serving_error = receipts.change_servings(request.form["r_serves"], id)
+        if "active" in request.form: 
+            receipts.change_active_time(request.form["t_active"], id)
+        if "passive" in request.form:           
+            receipts.change_passive_time(request.form["t_passive"], id)
         if "change_instructions" in request.form:
-            print("muutetaan ohje")
+            instruction_error = receipts.change_instructions(request.form["instructions"], id)
         if "inc" in request.form:
             print("muutetaan aineksia")
+            print(request.form)
         if "new_inc" in request.form:
             print("lisätään uusi aines")
         if "tag" in request.form:
             print("Muutetaan tagia")
         if "new_tag" in request.form:
             tag = request.form["add_new_tag"]
-            incredients.add_tag(tag, id)
-            tags = incredients.tags_for_recipe(id)
-            return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=tags)
-        
+            tags.add_tag(tag, id)
+            recipe_tags = tags.tags_for_recipe(id)
+        recipe_tags = tags.tags_for_recipe(id)
+        rec = receipts.get_receipt(id)
+        incs = incredients.get_incredients(id)
+
         if "ready" in request.form:
             redirect("/recipe/"+str(id))         
-        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=tags)
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags,
+                                name_error=name_error, serving_error=serving_error, 
+                                instruction_error=instruction_error)
 
     else: 
         rec = receipts.get_receipt(id)
         incs = incredients.get_incredients(id)
-        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs)
+        recipe_tags = tags.tags_for_recipe(id)
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags)
 
 
 

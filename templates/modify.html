@@ -3,19 +3,21 @@
 <h1>Muokkaa reseptiä {{ recipe[1] }}</h1>
 <form action="/modify/{{id}}" method="POST">
 <h3>Nimi</h3> <input type="text" name="r_name" class="input" value="{{ recipe[1] }}"><input type="submit" name="name" class="button" value="Muuta">
-<h3>Annoksia</h3> <input type="number" name="t_active" class="input" value="{{ recipe[4] }}"><input type="submit" name="serves" class="button" value="Muuta">
+{{ name_error }}
+<h3>Annoksia</h3> <input type="number" name="r_serves" class="input" value="{{ recipe[4] }}"><input type="submit" name="serves" class="button" value="Muuta">
+{{ serving_error }}
 <h3>Valmistusaika</h3>
 Aktiivinen: <input type="number" step=".01" name="t_active" class="input" value="{{ recipe[5] }}"><input type="submit" name="active" class="button" value="Muuta">
 <br>
 Passiivinen: <input type="number" step=".01" name="t_passive" class="input" value="{{ recipe[6] }}"><input type="submit" name="passive" class="button" value="Muuta">
 <br>
 <h3>Ainekset</h3>
-* ainekset tähän *
 <ul id="list">
     {% for inc in incredients %}
-    <li> <input type="text" name="r_inc" class="input" value={{inc.quantity}}>
-        <input type="text" name="r_inc" class="input" value={{inc.scale}}>
-        <input type="text" name="r_inc" class="input" value={{inc.name}}><input type="submit" name="inc" class="button" value="Muuta">
+    <li> <input type="text" style="width: 4em" name="r_inc" class="input" value={{inc.quantity}}>
+        <input type="text" size="6" name="r_inc" class="input" value={{inc.scale}}>
+        <input type="text" name="r_inc" class="input" value={{inc.name}}>
+        <input type="submit" name="inc{{inc.name}}" class="button" value="Muuta">
     {% endfor %}
     <li> <input type="number" style="width: 4em" name="r_inc" class="input" placeholder="määrä">
         <input type="text" size="6" name="r_inc" class="input" placeholder="mittayks.">
@@ -26,14 +28,17 @@ Passiivinen: <input type="number" step=".01" name="t_passive" class="input" valu
 <br>
 <h4>Ohje</h4>
 <textarea name="instructions" rows="9" cols="40" maxlength="10000">{{recipe[3]}}
-</textarea><input type="submit" name="change_instructions" class="button" value="Muuta">
+</textarea>
+<br>
+<input type="submit" name="change_instructions" class="button" value="Muuta">
+{{ instruction_error }}
 <br>
 <h4>Lisää tagejä</h4>
 <ul id="list">
     {% for tag in tags %}
     <li> {{ tag[0] }}
     {% endfor %}
-    <li> <input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
+<br><input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
 </ul>
 <br>
 <br>
