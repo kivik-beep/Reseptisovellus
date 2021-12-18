@@ -25,4 +25,12 @@ Valmistusaika {{ total }}h (aktiivista {{ active }}h, passiivista {{ passive }}h
 <h3>Työvaiheet:</h3>
 {{ instructions }}
 <p>
+<form action="/recipes" method="POST">
+<h3>Tagit:</h3>
+{% for tag in tags %}
+<input type="submit" name="{{ tag[0] }}" value="{{tag[0]}}"></input>
+{% endfor %}
+</form>
+<br>
+<br>
 {% endblock %}

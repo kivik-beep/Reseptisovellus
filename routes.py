@@ -106,11 +106,18 @@ def add_recipe():
 @app.route("/recipe/<int:id>", methods=["GET", "POST"])
 def recipe(id):
     if request.method == "POST":
+
         if (session["csrf_token"] != request.form["csrf_token"]):
             return abort(403)
         data = receipts.get_receipt(id)
         incredient_data = incredients.get_incredients(id)
         user_id = users.user_id()
+        tag_list = tags.tags_for_recipe(id)
+        for tag in tag_list:
+            if tag[0] in request.form:
+                recipes = receipts.all_with_tag(tag[0])
+                heading = "Reseptit tagilla "+tag[0]
+                return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
         if users_receipts.is_favorite(user_id, id):
             users_receipts.remove_favorite(user_id, id)
             like = "tykkää"
@@ -120,10 +127,11 @@ def recipe(id):
         return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
-                               instructions=data[3], incredients=incredient_data)
+                               instructions=data[3], incredients=incredient_data, tags=tag_list)
     elif receipts.is_id_taken(id):
         data = receipts.get_receipt(id)
         incredient_data = incredients.get_incredients(id)
+        tag_list = tags.tags_for_recipe(id)
         if users_receipts.is_favorite(users.user_id(), id):
             like = "tykätty"
         else:
@@ -131,7 +139,7 @@ def recipe(id):
         return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
-                               instructions=data[3], incredients=incredient_data)
+                               instructions=data[3], incredients=incredient_data, tags=tag_list)
     else:
         return render_template("error.html", message="Reseptiä ei ole vielä luotu!")
 
