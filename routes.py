@@ -167,7 +167,7 @@ def modify(id):
         incs = incredients.get_incredients(id)
 
         if "ready" in request.form:
-            redirect("/recipe/"+str(id))         
+            return redirect("/recipe/"+str(id))        
         return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags,
                                 name_error=name_error, serving_error=serving_error, 
                                 instruction_error=instruction_error)
