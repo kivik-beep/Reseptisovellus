@@ -1,57 +1,75 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if session.user_id == recipe[2] %}
-<h1>Muokkaa reseptiä {{ recipe[1] }}</h1>
+<div class="logblock">
+    <a href="/welcome" class="button" style="background-color: #222B35;">Oma sivu</a>
+    <a href="/recipes" class="button" style="background-color: #222B35;">Reseptit</a>
+    <a href="/new" class="button" style="background-color: #222B35;">Luo uusi resepti</a>
+    <a href="/favorites" class="button" style="background-color: #222B35;">Omat suosikit</a>
+    <a href="/my_recipes" class="button" style="background-color: #222B35;">Omat reseptit</a>
+</div> 
 <form action="/modify/{{id}}" method="POST">
-<h3>Nimi</h3> <input type="text" name="r_name" class="input" value="{{ recipe[1] }}"><input type="submit" name="name" class="button" value="Muuta">
-{{ name_error }}
-<h3>Annoksia</h3> <input type="number" name="r_serves" class="input" value="{{ recipe[4] }}"><input type="submit" name="serves" class="button" value="Muuta">
-{{ serving_error }}
-<h3>Valmistusaika</h3>
-Aktiivinen: <input type="number" step=".05" name="t_active" class="input" value="{{ recipe[5] }}"><input type="submit" name="active" class="button" value="Muuta">
-<br>
-Passiivinen: <input type="number" step=".05" name="t_passive" class="input" value="{{ recipe[6] }}"><input type="submit" name="passive" class="button" value="Muuta">
-<br>
-<h3>Ainekset</h3>
-<ul id="list">
-    {% for inc in incredients %}
-    <li> <input type="text" step=".05" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
-        <input type="text" size="6" name="s_{{inc[3]}}" class="input" value={{inc.scale}}>
-        <input type="text" name="n_{{inc[3]}}" class="input" value={{inc.name}}>
-        <input type="submit" name="{{inc[3]}}" class="button" value="Muuta">
-    {% endfor %}
-    <li> <input type="number" style="width: 4em" name="r_q" class="input" placeholder="määrä">
-        <input type="text" size="6" name="r_s" class="input" placeholder="mittayks.">
-        <input type="text" name="r_n" class="input" placeholder="nimi"><input type="submit" name="new_inc" class="button" value="Lisää">
+    <h1>Muokkaa reseptiä {{ recipe[1] }}</h1>
+    <p><b>Nimi:</b>
+        <input type="text" name="r_name" class="input" value="{{ recipe[1] }}">
+        <input type="submit" name="name" class="button" value="Muuta">
+    </p>
+    <p class="error">{{ name_error }}</p>
+    <p><b>Annoksia:</b>
+        <input type="number" name="r_serves" class="input" value="{{ recipe[4] }}">
+        <input type="submit" name="serves" class="button" value="Muuta">
+    </p>
+    <p class="error">{{ serving_error }}</p>
+    <p><b>Valmistusaika:</b><br>
+        <span style="color: #029768;"><b>Aktiivinen:</b></span>
+        <input type="number" step=".05" min="0" name="t_active" class="input" value="{{ recipe[5] }}">
+        <input type="submit" name="active" class="button" value="Muuta"><br>
+        <span style="color: #029768;"><b>Passiivinen:</b></span>
+        <input type="number" step=".05" min="0" name="t_passive" class="input" value="{{ recipe[6] }}">
+        <input type="submit" name="passive" class="button" value="Muuta"><br>
+        <span style="color: #ff8c00;">Ajan on oltava positiivinen luku, max 2 desimaalia</span>
+    </p>
+    <h4 style="color: #006847;">Ainekset</h4>
+    <ul id="list">
+        {% for inc in incredients %}
+        <li> <input type="text" step=".05" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
+            <input type="text" size="6" name="s_{{inc[3]}}" class="input" value={{inc.scale}}>
+            <input type="text" name="n_{{inc[3]}}" class="input" value={{inc.name}}>
+            <input type="submit" name="{{inc[3]}}" class="button" value="Muuta">
+        {% endfor %}
+        <li> <input type="number" style="width: 4em" name="r_q" class="input" placeholder="määrä">
+            <input type="text" size="6" name="r_s" class="input" placeholder="mittayks.">
+            <input type="text" name="r_n" class="input" placeholder="nimi"><input type="submit" name="new_inc" class="button" style="background-color: #FFC45D;" value="Lisää">
+            <br>
+        <p class="error">{{ incredient_error }}</p>
+    </ul>
     <br>
-    {{ incredient_error }}
-</ul>
-<br>
-<h4>Ohje</h4>
-<textarea name="instructions" rows="9" cols="40" maxlength="10000">{{recipe[3]}}
-</textarea>
-<br>
-<input type="submit" name="change_instructions" class="button" value="Muuta">
-{{ instruction_error }}
-<br>
-<h4>Lisää tagejä</h4>
-<ul id="list">
-    {% for tag in tags %}
-    <li> <input type="text" name="name_{{tag[0]}}" class="input" value="{{tag[0]}}"><input type="submit" name="{{tag[0]}}" class="button" value="Muuta">
-        <input type="submit" name="remove_{{tag[0]}}" class="button" value="Poista">
-    {% endfor %}
-<br>
-<input type="text" name="add_new_tag" class="input" placeholder="uusi"><input type="submit" name="new_tag" class="button" value="Lisää">
-</ul>
-<br>
-<br>
-<input type="submit" name="ready" class="button" value="Valmis">
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<br>
-<br>
+    <p><b>Ohje:</b><br>
+        <textarea name="instructions" rows="9" cols="40" maxlength="10000">{{recipe[3]}}</textarea><br>
+        <input type="submit" name="change_instructions" class="button" value="Muuta">
+    </p>
+    <p class="error">{{ instruction_error }}</p>
+
+    <h4 style="color: #006847;">Lisää tagejä</h4>
+    <ul id="list">
+        {% for tag in tags %}
+        <li> <input type="text" name="name_{{tag[0]}}" class="input" value="{{tag[0]}}">
+            <input type="submit" name="{{tag[0]}}" class="button" value="Muuta">
+        <input type="submit" name="remove_{{tag[0]}}" class="button" style="background-color: red;" value="X">
+        {% endfor %}
+        <br>
+        <input type="text" name="add_new_tag" class="input" placeholder="uusi">
+        <input type="submit" name="new_tag" class="button" style="background-color: #FFC45D;" value="Lisää">
+    </ul>
+    <br>
+    <br>
+    <input type="submit" name="ready" class="button" style="background-color: #006847;" value="Valmis - siirry reseptin sivulle">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <br>
+    <br>
+</form>
 {% else %}
 <h3>Sinulla ei ole valtuuksia tämän reseptin muokkaamiseen</h3>
 {% endif %}
-</form>
 {% endblock %}
 

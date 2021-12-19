@@ -1,22 +1,41 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if session.user_id %}
-<p> Tervetuloa! </p>
-<p>Tällä sivulla voit</p>
-<ul>
-<li> <a href="/recipes">Siirtyä selaamaan reseptejä</a>
-<li> <a href="/new">Luoda uuden reseptin</a>
-<li> <a href="/favorites">Selata omia suosikkeja</a>
-<li> <a href="/my_recipes">Selata omia reseptejä</a>
-<li> lisätä tai tutkailla omia tarvikkeita
-</ul>
-<p>
+<h1>Käyttäjän {{ name }} oma sivu</h1>
+<h1>
+    <a href="/recipes">Reseptit</a>
+</h1>
+<br>
+<div class="logblock" style="background-color: #ffdfa7">
+    <h2>Toiminnot:</h2>
+    <ol>
+        <h3><li><a href="/new" style="color: #008B8B;">Luo uusi resepti</a></li></h3>
+        <h3><li><a href="/favorites" style="color: #008B8B;">Omat suosikit</a></li></h3>
+        <ul>
+            <li><p>Selaa reseptejä, jotka olet merkinnyt suosikiksi</p></li>
+        </ul>
+        <h3><li><a href="/my_recipes" style="color: #008B8B;">Omat reseptit</a></li></h3>
+        <ul>
+            <li><p>Selaa ja muokkaa lisäämiäsi reseptejä</p></li>
+        </ul>
+    </ol>
+</div>
+<br>
+<br>
+<a href="/" class="button">Palaa etusivulle</a>
+<br>
+<a href="/logout" class="button">Kirjaudu ulos</a>
 {% else %}
-Tällä sivulla on kirjautuneen käyttäjän toimintoja.
-<p>
-Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
-<p>
+<h3>Tällä sivulla on sisäänkirjautuneen käyttäjän toimintoja</h3>
+<div class="logblock"> 
+    <h3 class="loglink">Sisäänkirjautuneena voit</h3>
+    <ul>
+      <li>Luoda uusia reseptejä</li>
+      <li>Merkitä reseptejä suosikiksi</li>
+    </ul>
+    <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
+    <br>
+    <a href="/register" class="loglink">Luo käyttäjätunnus</a>
+</div>
 {% endif %}
-<a href="/">Palaa etusivulle</a>
-
 {% endblock %}

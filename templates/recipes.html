@@ -1,29 +1,45 @@
-
 {% extends "layout.html" %}
 {% block content %}
-
-<h1>Reseptit</h1>
-
 <form action="/recipes" method="POST">
-<input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" name="search" class="button" value="Hae">
-<p class="error">{{ error }}</p>
-{% for tag in tags %}
-<input type="submit" name="{{ tag[0] }}" class="button" value="{{tag[0]}}"></input>
-{% endfor %}
-<br>
-<h2>{{ list_heading }}</h2>
-<input type="submit" name="Anew" class="button" value="uutuus"></input>
-<input type="submit" name="Apopular" class="button" value="suosio"></input>
-<input type="submit" name="Aspeed" class="button" value="nopeus"></input>
-<input type="submit" name="Aincredients" class="button" value="ainesmäärä"></input>
-<input type="submit" name="Alphabetical" class="button" value="aakkosjärjestys"></input>
-
-<ul id="list">
-    <h2 id="heading"></h2>
-    {% for recipe in recipes %}
-    <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a>
-    {% endfor %}
-</ul>
-<p>
-</form>
+    {% if session.user_id %}
+        <div class="logblock">
+            <a href="/welcome" class="button" style="background-color: #222B35;">Oma sivu</a>
+            <a href="/new" class="button" style="background-color: #222B35;">Luo uusi resepti</a>
+            <a href="/favorites" class="button" style="background-color: #222B35;">Omat suosikit</a>
+            <a href="/my_recipes" class="button" style="background-color: #222B35;">Omat reseptit</a>
+        </div>  
+    {% endif %}
+    <div class="logblock" style="background-color: #ffdfa7">
+        <h1>Reseptihaku</h1>
+        <h5>Ainesosahaku, hae reseptejä joiden aineksissa:</h5>
+        <input type="text" name="incredient" class="input" placeholder="ainesosa"><input type="submit" name="search" class="button" value="Hae">
+        <p class="error">{{ error }}</p>
+        <h5>Tagi haku, hae reseptit jotka liitetty tagiin:</h5>
+        {% for tag in tags %}
+        <input type="submit" name="{{ tag.name }}" class="tag" value="{{tag[0]}}"></input>
+        {% endfor %}
+        <br>
+    </div>
+    <h1>Reseptit</h1>
+    <div>
+        <h5>Järjestä <b>kaikki</b> reseptit:</h5>
+        <input type="submit" name="Anew" class="button" value="uutuus"></input>
+        <input type="submit" name="Apopular" class="button" value="suosio"></input>
+        <input type="submit" name="Aspeed" class="button" value="nopeus"></input>
+        <input type="submit" name="Aincredients" class="button" value="ainesmäärä"></input>
+        <input type="submit" name="Alphabetical" class="button" value="aakkosjärjestys"></input>
+    </div>
+    <h2>{{ list_heading }}</h2>
+    <ul id="list">
+        {% for recipe in recipes %}
+        <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a>
+        {% endfor %}
+    </ul>
+    <br>
+    </form>
+    <a href="/" class="button" style="background-color: #008B8B;">Palaa etusivulle</a><br>
+    {% if session.user_id %}
+    <a href="/welcome" class="button" style="background-color: #008B8B;">Omalle sivulle</a><br>
+    <a href="/logout" class="button" style="background-color: #008B8B;">Kirjaudu ulos</a>
+    {% endif %}
 {% endblock %}

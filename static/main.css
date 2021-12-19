@@ -15,8 +15,7 @@ h2 {
 }
 
 h3, h4, h5 {
-	color: #FF8C00;
-	
+	color: #FF8C00;	
 }
 
 a {
@@ -70,10 +69,10 @@ td, th {
 }
 
 .colors {
-	#FF8C00 tumma oranssi 	-	linkit, 
+	#FF8C00 tumma oranssi 	-	linkit, pienemmät otsikot
 	#FFC45D	vaalea oranssi 	-	sisäänkirjautumisinfolaatikko tausta
-	#008B8B tumma syaani 	-	alaotsikot
-	#006847 tumma vihreä	- 	tekstit
+	#008B8B tumma syaani 	- yksittäiset linkit/otsikot, suoraan html-pohjassa
+	#006847 tumma vihreä	- 	tekstit, tagit
 	#222B35 harmaa musta	-	yläosan blokki
 }
 
@@ -97,8 +96,22 @@ footer {
    border-radius: 8px;
  }
 
+ .tag {
+  background-color: #006847;
+   border: none;
+  color: whitesmoke;
+   padding: 2px 5px;
+   text-align: center;
+  text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 2px 2px;
+   cursor: pointer;
+   border-radius: 4px;
+ }
+
 .input {
-  background-color: #f8deb1;
+  background-color: whitesmoke;
   outline-color: #FF8C00;
   color: #aa5e00;
    padding: 6px 10px;

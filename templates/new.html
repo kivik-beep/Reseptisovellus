@@ -1,47 +1,51 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if session.user_id %}
-<h2>Lisää resepti</h2>
+<div class="logblock">
+  <a href="/welcome" class="button" style="background-color: #222B35;">Oma sivu</a>
+  <a href="/recipes" class="button" style="background-color: #222B35;">Reseptit</a>
+  <a href="/favorites" class="button" style="background-color: #222B35;">Omat suosikit</a>
+  <a href="/my_recipes" class="button" style="background-color: #222B35;">Omat reseptit</a>
+</div> 
 <form action="/new" method="POST">
+  <h2>Lisää resepti</h2>
   <p class="error">{{ error1 }}</p>
-nimi:
-<input type="text" name="name" value={{name}}>
-
-<br>
-<p class="error">{{ error2 }}</p>
-annoksia: <input type="number" name="serves" value={{serves}}>
-<br> 
-valmistusaika: 
-<input type="number" step=".05" name="active" placeholder="aktiivinen" value={{active}}>
-<br>
-<input type="number" step=".05" name="passive" placeholder="passiivinen" value={{passive}}>
-<br>
-<p class="error">{{ error3 }}</p>
-<p>Ainekset:<br>
-  <p>Lisää ainekset muodossa määrä+pakkauskoko+nimi (esim 1.5+dl+vesi)</p>
-<textarea name="incredients" rows="8" cols="40" maxlength="10000" placeholder="1+litra+vesi">{{incredients}}
-</textarea></p>
-<br>
-<p class="error">{{ error4 }}</p>
-<p>Ohje:<br>
-<textarea name="instructions" rows="18" cols="40" maxlength="10000">{{instructions}}
-</textarea></p>
-<input type="submit" class="button" value="Lähetä">
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  <p><b>Nimi:</b>
+    <input type="text" name="name" value={{name}}>
+  </p>
+  <p class="error">{{ error2 }}</p>
+  <p><b>Annoksia:</b>
+    <input type="number" name="serves" value={{serves}}>
+  </p>
+  <p><b>Valmistusaika:</b>
+    <input type="number" step=".05" min="0" style="width: 6em" name="active" placeholder="aktiivinen" value={{active}}>
+    <input type="number" step=".05" min="0" style="width: 6em" name="passive" placeholder="passiivinen" value={{passive}}><br>
+    <span style="color: #ff8c00;">Ajan on oltava positiivinen luku, max 2 desimaalia</span>
+  </p>
+  <p class="error">{{ error3 }}</p>
+  <p><b>Ainesosat:</b><br>
+  <span style="color: #ff8c00;">Lisää ainekset muodossa määrä+pakkauskoko+nimi (esim 1.5+dl+vesi)</span>
+  <textarea name="incredients" rows="8" cols="40" maxlength="10000" placeholder="1.25+litra+vesi">{{incredients}}</textarea>
+  </p>
+  <p class="error">{{ error4 }}</p>
+  <p><b>Ohje:</b><br>
+    <textarea name="instructions" rows="18" cols="40" maxlength="10000">{{instructions}}</textarea><br>
+    <input type="submit" class="button" value="Lähetä">
+  </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
-<p>
-<a href="/welcome">Palaa takaisin</a>
+<br>
 {% else %}
 <h3>Tällä sivulla on sisäänkirjautuneen käyttäjän toimintoja</h3>
 <div class="logblock"> 
-    <h3 class="loglink">Sisäänkirjautuneena voit</h3>
-    <ul>
-      <li>Luoda uusia reseptejä</li>
-      <li>Merkitä reseptejä suosikiksi</li>
-    </ul>
-    <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
-    <br>
-    <a href="/register" class="loglink">Luo käyttäjätunnus</a>
-  </div>
+  <h3 class="loglink">Sisäänkirjautuneena voit</h3>
+  <ul>
+    <li>Luoda uusia reseptejä</li>
+    <li>Merkitä reseptejä suosikiksi</li>
+  </ul>
+  <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
+  <br>
+  <a href="/register" class="loglink">Luo käyttäjätunnus</a>
+</div>
 {% endif %}
 {% endblock %}

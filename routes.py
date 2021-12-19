@@ -51,7 +51,7 @@ def login():
 
 @app.route("/welcome")
 def welcome():
-    return render_template("welcome.html")
+    return render_template("welcome.html", name=users.username())
 
 @app.route("/favorites")
 def favorites():
@@ -78,7 +78,6 @@ def add_recipe():
 
         # e = error
         name_e, servings_e, inc_e, inst_e = "", "", "", ""
-
         if name == "":
             name_e = "Anna reseptille nimi"
         if len(name) > 20:
@@ -91,13 +90,11 @@ def add_recipe():
             servings_e = "Anna reseptille annosmäärä"
         if incs == "":
             inc_e = "Anna reseptille ainekset"
-
         if name_e != "" or servings_e != "" or inc_e != "" or inst_e != "":
             return render_template("new.html", error1=name_e, error2=servings_e, error3=inc_e,
                                    error4=inst_e, name=name, serves=serve, active=active,
                                    passive=passive, incredients=incs,
                                    instructions=instructions)
-
         r_id = receipts.add_recipe(name, user_id, serve, instructions, active, passive)
         incredients.add_incredients(incs, r_id)
         return redirect("/recipe/"+str(r_id))
@@ -116,7 +113,7 @@ def recipe(id):
         for tag in tag_list:
             if tag[0] in request.form:
                 recipes = receipts.all_with_tag(tag[0])
-                heading = "Reseptit tagilla "+tag[0]
+                heading = "Reseptit tagilla "+tag[0]+":"
                 return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
         if users_receipts.is_favorite(user_id, id):
             users_receipts.remove_favorite(user_id, id)
@@ -125,7 +122,7 @@ def recipe(id):
             users_receipts.add_favorite(user_id, id)
             like = "tykätty"
         favorite = receipts.get_favorite_count(id)
-        return render_template("recipe.html", favorite_button=like, fav_count=favorite, id=str(id), name=data[1],
+        return render_template("recipe.html", favorite_button=like, creator_id=data[2], fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
@@ -138,7 +135,7 @@ def recipe(id):
             like = "tykätty"
         else:
             like = "tykkää"
-        return render_template("recipe.html", favorite_button=like, fav_count=favorite, id=str(id), name=data[1],
+        return render_template("recipe.html", favorite_button=like, creator_id=data[2], fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
@@ -148,10 +145,13 @@ def recipe(id):
 
 @app.route("/modify/<int:id>", methods=["GET", "POST"])
 def modify(id):
+    rec = receipts.get_receipt(id)
+    incs = incredients.get_incredients(id)
+    recipe_tags = tags.tags_for_recipe(id)
     if request.method == "POST":
         if (session["csrf_token"] != request.form["csrf_token"]):
             return abort(403)
-        name_error, serving_error, instruction_error = "", "", ""
+        name_error, serving_error, instruction_error, incredient_error = "", "", "", ""
         if "name" in request.form:
             name_error = receipts.chage_name(request.form["r_name"], id)
         if "serves" in request.form:
@@ -162,9 +162,7 @@ def modify(id):
             receipts.change_passive_time(request.form["t_passive"], id)
         if "change_instructions" in request.form:
             instruction_error = receipts.change_instructions(request.form["instructions"], id)
-        incredient_list = incredients.get_incredients(id)
-        incredient_error = ""
-        for i in incredient_list:
+        for i in incs:
             if str(i[3]) in request.form:
                 new_quantity = request.form["q_"+str(i[3])]
                 new_scale = request.form["s_"+str(i[3])]
@@ -185,15 +183,12 @@ def modify(id):
                 else:
                     inc_id = incredients.add_incredient(name)
                 incredients.add_incredient_parts(id, inc_id, quantity, scale)
-        
-        tag_list = tags.tags_for_recipe(id)
-        for tag in tag_list:
+        for tag in recipe_tags:
             if tag[0] in request.form:
-                new_tag = request.form["name_"+tag[0]]
-                tags.rename_tag(tag[0], new_tag, id)
+                renamed_tag = request.form["name_"+tag[0]]
+                tags.rename_tag(tag[0], renamed_tag, id)
             if "remove_"+tag[0] in request.form:
                 tags.remove_tag(tag[0], id)
-
         if "new_tag" in request.form:
             tag = request.form["add_new_tag"]
             tags.add_tag(tag, id)
@@ -201,20 +196,14 @@ def modify(id):
         recipe_tags = tags.tags_for_recipe(id)
         rec = receipts.get_receipt(id)
         incs = incredients.get_incredients(id)
-
         if "ready" in request.form:
             return redirect("/recipe/"+str(id))        
         return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags,
                                 name_error=name_error, serving_error=serving_error, 
                                 instruction_error=instruction_error, incredient_error=incredient_error)
-
-    else: 
-        rec = receipts.get_receipt(id)
-        incs = incredients.get_incredients(id)
-        recipe_tags = tags.tags_for_recipe(id)
+    else:        
         return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags)
-
-
+    
 
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():
@@ -253,8 +242,7 @@ def recipes():
         for tag in tag_list:
             if tag[0] in request.form:
                 recipes = receipts.all_with_tag(tag[0])
-                heading = "Reseptit tagilla "+tag[0]
-
+                heading = "Reseptit tagilla "+tag[0]+":"
         return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
     if request.method == "GET":
         recipes = receipts.get_all()

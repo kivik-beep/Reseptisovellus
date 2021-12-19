@@ -1,8 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 {% if session.user_id %}
-<br>
-<a href="/welcome">Palaa omalle sivulle</a> <a href="/new">Lisää uusi resepti</a>
+<div class="logblock">
+    <a href="/welcome" class="button" style="background-color: #222B35;">Oma sivu</a>
+    <a href="/recipes" class="button" style="background-color: #222B35;">Reseptit</a>
+    <a href="/new" class="button" style="background-color: #222B35;">Luo uusi resepti</a>
+    <a href="/my_recipes" class="button" style="background-color: #222B35;">Omat reseptit</a>
+</div>  
 <h2>Käyttäjän {{ name }} suosikkireseptit:</h2>
 <ul>
     {% for r in recipes %}
@@ -12,9 +16,16 @@
 <p>
 <p>
 {% else %}
-Tällä sivulla on kirjautuneen käyttäjän toimintoja.
-<p>
-Vaikuttaisi siltä ettet ole <a href="/login">kirjautunut sisään</a>.
-<p>
+<h3>Tällä sivulla on sisäänkirjautuneen käyttäjän toimintoja</h3>
+<div class="logblock"> 
+    <h3 class="loglink">Sisäänkirjautuneena voit</h3>
+    <ul>
+      <li>Luoda uusia reseptejä</li>
+      <li>Merkitä reseptejä suosikiksi</li>
+    </ul>
+    <a href="/login" class="loglink"> Sisäänkirjautumiseen</a>
+    <br>
+    <a href="/register" class="loglink">Luo käyttäjätunnus</a>
+</div>
 {% endif %}
 {% endblock %}

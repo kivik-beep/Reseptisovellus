@@ -87,9 +87,12 @@ def chage_name(new_name, recipe_id):
     return "Nimi '"+new_name+"' on jo varattu"
 
 def change_servings(new_serves, recipe_id):
+    if int(new_serves) < 1:
+        return "Annoksia on oltava vähintään 1"
     sql = "UPDATE recipe SET serves=:serves WHERE id=:recipe_id"
     db.session.execute(sql, {"serves":new_serves, "recipe_id":recipe_id})
     db.session.commit()
+    return ""
 
 def change_active_time(new_time, recipe_id):
     if not len(new_time):

@@ -1,20 +1,42 @@
 {% extends "layout.html" %}
 {% block content %}
-<br>
-<a href="/recipes">takaisin</a>
-<h1> {{ name }} </h1> 
 {% if session.user_id %}
-<form action="/recipe/{{id}}" method="POST">
-<input type="submit" class="button" value={{favorite_button}}>
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-</form>
+<div class="logblock">
+    <a href="/welcome" class="button" style="background-color: #222B35;">Oma sivu</a>
+    <a href="/recipes" class="button" style="background-color: #222B35;">Reseptit</a>
+    <a href="/new" class="button" style="background-color: #222B35;">Luo uusi resepti</a>
+    <a href="/favorites" class="button" style="background-color: #222B35;">Omat suosikit</a>
+    <a href="/my_recipes" class="button" style="background-color: #222B35;">Omat reseptit</a>
+</div>
+{% else %}
+<a href="/recipes" class="button" style="background-color: #006847;">Takaisin resepteihin</a>
 {% endif %}
-<a>Resepti on {{ fav_count }} käyttäjän suosikeissa</a>
-<p>lisääjä: {{ creator }}</p>
+{% if session.user_id == creator_id %}
+<form action="/recipe/{{id}}" method="POST">
+    <h1> {{ name }} 
+        <input type="submit" class="button" value={{favorite_button}}>
+        <a href="/modify/{{id}}" class="button" style="background-color: #006847; text-shadow: 0px 0px 0px;">
+            Muokkaa
+        </a>
+    </h1> 
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% elif session.user_id %}
+<form action="/recipe/{{id}}" method="POST">
+    <h1> {{ name }} <input type="submit" class="button" value={{favorite_button}}></h1> 
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% else %}
+<h1> {{ name }} </h1> 
+{% endif %}
+<a>Resepti on <b>{{ fav_count }}</b> käyttäjän suosikeissa</a>
+<p>käyttäjältä <b>{{ creator }}</b></p>
 <p>
-<p>Annoksia: {{ serves }} 
-<br>
-Valmistusaika {{ total }}h (aktiivista {{ active }}h, passiivista {{ passive }}h)
+    <b>Annoksia:</b> {{ serves }} 
+</p>
+<p>
+    <b>Valmistusaika:</b> {{ total }}h (aktiivista {{ active }}h, passiivista {{ passive }}h)
+</p>
 <h3>Ainekset:</h3>
 <ul>
     {% for incredient in incredients %}
@@ -26,10 +48,10 @@ Valmistusaika {{ total }}h (aktiivista {{ active }}h, passiivista {{ passive }}h
 {{ instructions }}
 <p>
 <form action="/recipes" method="POST">
-<h3>Tagit:</h3>
-{% for tag in tags %}
-<input type="submit" name="{{ tag[0] }}" value="{{tag[0]}}"></input>
-{% endfor %}
+    <h3>Tagit:</h3>
+    {% for tag in tags %}
+    <input type="submit" name="{{ tag[0] }}" class="tag" value="{{tag[0]}}"></input>
+    {% endfor %}
 </form>
 <br>
 <br>
