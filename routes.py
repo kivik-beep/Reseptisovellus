@@ -170,10 +170,14 @@ def modify(id):
                 new_name = request.form["n_"+str(i[3])]
                 incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
         if "new_inc" in request.form:
-            quantity = request.form["q_"+str(i[3])]
-            scale = request.form["s_"+str(i[3])]
-            name = request.form["n_"+str(i[3])]
-            incredients.add_incredient_parts(quantity, scale, name)
+            quantity = request.form["r_q"]
+            scale = request.form["r_s"]
+            name = request.form["r_n"]
+            if incredients.is_incredient(name):
+                inc_id = incredients.get_incredient(name)
+            else:
+                inc_id = incredients.add_incredient(name)
+            incredients.add_incredient_parts(id, inc_id, quantity, scale)
         
         tag_list = tags.tags_for_recipe(id)
         for tag in tag_list:
@@ -214,7 +218,7 @@ def recipes():
         if "search" in request.form:
             incredient = request.form["incredient"].lower()
             if incredients.is_used(incredient) and len(incredient):
-                incredient_id = incredients.get_incredient(incredient)
+                incredient_id = incredients.get_incredient_with(incredient)
                 incredient_containing_recipes = []
                 for inc in incredient_id:
                     incredient_containing_recipes += receipts.get_all_containing(inc.id)

@@ -7,6 +7,12 @@ def add_incredient(name):
     return incredient_id
 
 def get_incredient(inc_name):
+    sql = "SELECT id FROM incredient WHERE name=:name"
+    incredient = db.session.execute(sql, {"name": inc_name}).fetchone()[0]
+    print(incredient, inc_name)
+    return incredient
+
+def get_incredient_with(inc_name):
     sql = "SELECT id FROM incredient WHERE name LIKE :name"
     incredient = db.session.execute(sql, {"name": '%'+inc_name+'%'}).fetchall()
     return incredient
