@@ -18,9 +18,9 @@
     <input type="number" name="serves" value={{serves}}>
   </p>
   <p><b>Valmistusaika:</b>
-    <input type="number" step=".05" min="0" style="width: 6em" name="active" placeholder="aktiivinen" value={{active}}>
-    <input type="number" step=".05" min="0" style="width: 6em" name="passive" placeholder="passiivinen" value={{passive}}><br>
-    <span style="color: #ff8c00;">Ajan on oltava positiivinen luku, max 2 desimaalia</span>
+    <input type="number" step=".05" min="0" max="240" style="width: 6em" name="active" placeholder="aktiivinen" value={{active}}>
+    <input type="number" step=".05" min="0" max="240" style="width: 6em" name="passive" placeholder="passiivinen" value={{passive}}><br>
+    <span style="color: #ff8c00;">Ajan on oltava positiivinen luku väliltä 0-240, max 2 desimaalia</span>
   </p>
   <p class="error">{{ error3 }}</p>
   <p><b>Ainesosat:</b><br>

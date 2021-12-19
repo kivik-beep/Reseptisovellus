@@ -22,22 +22,23 @@
     <p class="error">{{ serving_error }}</p>
     <p><b>Valmistusaika:</b><br>
         <span style="color: #029768;"><b>Aktiivinen:</b></span>
-        <input type="number" step=".05" min="0" name="t_active" class="input" value="{{ recipe[5] }}">
+        <input type="number" step=".05" min="0" max="240" name="t_active" class="input" value="{{ recipe[5] }}">
         <input type="submit" name="active" class="button" value="Muuta"><br>
         <span style="color: #029768;"><b>Passiivinen:</b></span>
-        <input type="number" step=".05" min="0" name="t_passive" class="input" value="{{ recipe[6] }}">
+        <input type="number" step=".05" min="0" max="240" name="t_passive" class="input" value="{{ recipe[6] }}">
         <input type="submit" name="passive" class="button" value="Muuta"><br>
         <span style="color: #ff8c00;">Ajan on oltava positiivinen luku, max 2 desimaalia</span>
     </p>
     <h4 style="color: #006847;">Ainekset</h4>
     <ul id="list">
         {% for inc in incredients %}
-        <li> <input type="text" step=".05" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
+        <li> <input type="text" step=".05" max="1000" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
             <input type="text" size="6" name="s_{{inc[3]}}" class="input" value={{inc.scale}}>
             <input type="text" name="n_{{inc[3]}}" class="input" value={{inc.name}}>
             <input type="submit" name="{{inc[3]}}" class="button" value="Muuta">
         {% endfor %}
-        <li> <input type="number" style="width: 4em" name="r_q" class="input" placeholder="määrä">
+            <br>
+        <li> <input type="number" max="1000" style="width: 4em" name="r_q" class="input" placeholder="määrä">
             <input type="text" size="6" name="r_s" class="input" placeholder="mittayks.">
             <input type="text" name="r_n" class="input" placeholder="nimi"><input type="submit" name="new_inc" class="button" style="background-color: #FFC45D;" value="Lisää">
             <br>
