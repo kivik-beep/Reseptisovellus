@@ -17,7 +17,7 @@ def rename_tag(tag_name, new_name, recipe_id):
     taken = recipe_has_tag(new_name, recipe_id)
     if len(new_name) and not taken:
         sql = "UPDATE tag SET name=:new_name WHERE name=:tag_name AND recipe_id=:recipe_id"
-        db.session.execute(sql, {"new_name":new_name,"tag_name":tag_name, "recipe_id":recipe_id})
+        db.session.execute(sql, {"new_name":new_name, "tag_name":tag_name, "recipe_id":recipe_id})
         db.session.commit()
 
 def remove_tag(tag_name, recipe_id):

@@ -8,8 +8,8 @@ import tags
 
 @app.route("/")
 def index():
-    recipe_amount = receipts.get_total_amount()
-    return render_template("index.html", name=users.username(), r_amount = recipe_amount)
+    recipe_count = receipts.count()
+    return render_template("index.html", name=users.username(), r_amount=recipe_count)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -19,15 +19,15 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        error_name, error_match, error_length = "","",""
+        error_name, error_match, error_length = "", "", ""
         if password1 != password2:
             error_match = "Salasanat eivät täsmää"
-        if len(username) < 4:
-            error_name = "Käyttäjänimen oltava vähintään neljän merkin mittainen. "
+        if len(username) < 4 or len(username) > 25:
+            error_name = "Käyttäjänimen oltava 4-25 merkin mittainen. "
         if users.is_taken(username.lower()):
             error_name = "Käyttäjänimi on jo varattu"
-        if len(password1) < 5:
-            error_length = "Salasanan oltava vähintään kuuden merkin mittainen. "
+        if len(password1) < 5 or len(password1) > 35:
+            error_length = "Salasanan oltava 6-35 merkin mittainen. "
         if error_name != "" or error_length != "" or error_match != "":
             return render_template("register.html", e_name=error_name, e_match=error_match,
                                    e_length=error_length, name=username)
@@ -114,7 +114,8 @@ def recipe(id):
             if tag[0] in request.form:
                 recipes = receipts.all_with_tag(tag[0])
                 heading = "Reseptit tagilla "+tag[0]+":"
-                return render_template("recipes.html", list_heading=heading, recipes=recipes, tags=tag_list)
+                return render_template("recipes.html", list_heading=heading, recipes=recipes,
+                                       tags=tag_list)
         if users_receipts.is_favorite(user_id, id):
             users_receipts.remove_favorite(user_id, id)
             like = "tykkää"
@@ -122,7 +123,8 @@ def recipe(id):
             users_receipts.add_favorite(user_id, id)
             like = "tykätty"
         favorite = receipts.get_favorite_count(id)
-        return render_template("recipe.html", favorite_button=like, creator_id=data[2], fav_count=favorite, id=str(id), name=data[1],
+        return render_template("recipe.html", favorite_button=like, creator_id=data[2],
+                               fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
@@ -135,7 +137,8 @@ def recipe(id):
             like = "tykätty"
         else:
             like = "tykkää"
-        return render_template("recipe.html", favorite_button=like, creator_id=data[2], fav_count=favorite, id=str(id), name=data[1],
+        return render_template("recipe.html", favorite_button=like, creator_id=data[2],
+                               fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
@@ -156,9 +159,9 @@ def modify(id):
             name_error = receipts.chage_name(request.form["r_name"], id)
         if "serves" in request.form:
             serving_error = receipts.change_servings(request.form["r_serves"], id)
-        if "active" in request.form: 
+        if "active" in request.form:
             receipts.change_active_time(request.form["t_active"], id)
-        if "passive" in request.form:           
+        if "passive" in request.form:
             receipts.change_passive_time(request.form["t_passive"], id)
         if "change_instructions" in request.form:
             instruction_error = receipts.change_instructions(request.form["instructions"], id)
@@ -167,7 +170,7 @@ def modify(id):
                 new_quantity = request.form["q_"+str(i[3])]
                 new_scale = request.form["s_"+str(i[3])]
                 new_name = request.form["n_"+str(i[3])]
-                if new_quantity=="" or new_scale == "" or new_name == "":
+                if new_quantity == "" or new_scale == "" or new_name == "":
                     incredient_error = "aines tarvitsee määrän, mittayksikön ja nimen"
                 else:
                     incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
@@ -175,7 +178,7 @@ def modify(id):
             quantity = request.form["r_q"]
             scale = request.form["r_s"]
             name = request.form["r_n"]
-            if quantity=="" or scale == "" or name == 0:
+            if quantity == "" or scale == "" or name == 0:
                 incredient_error = "aines tarvitsee määrän, mittayksikön ja nimen"
             else:
                 if incredients.is_incredient(name):
@@ -197,13 +200,14 @@ def modify(id):
         rec = receipts.get_receipt(id)
         incs = incredients.get_incredients(id)
         if "ready" in request.form:
-            return redirect("/recipe/"+str(id))        
-        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags,
-                                name_error=name_error, serving_error=serving_error, 
-                                instruction_error=instruction_error, incredient_error=incredient_error)
-    else:        
-        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags)
-    
+            return redirect("/recipe/"+str(id))
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs,
+                               tags=recipe_tags, name_error=name_error, serving_error=serving_error,
+                               instruction_error=instruction_error,
+                               incredient_error=incredient_error)
+    else:
+        return render_template("modify.html", id=str(id), recipe=rec, incredients=incs,
+                               tags=recipe_tags)
 
 @app.route("/recipes", methods=["GET", "POST"])
 def recipes():
@@ -218,13 +222,14 @@ def recipes():
                 incredient_containing_recipes = []
                 for inc in incredient_id:
                     incredient_containing_recipes += receipts.get_all_containing(inc.id)
-                return render_template("recipes.html",
-                                       list_heading="Reseptit joiden aineksissa '" + str(incredient)+"':",
-                                       recipes=incredient_containing_recipes, tags=tag_list)
+                return render_template("recipes.html", recipes=incredient_containing_recipes,
+                                       tags=tag_list, list_heading="Reseptit, joissa mainitaan '"
+                                       + str(incredient)+"' aineksissa:")
             if len(incredient) > 0:
                 return render_template("recipes.html",
                                        error="Ei tuloksia hakusanalla '" + str(incredient)+"'",
-                                       list_heading="Kaikki reseptit:", recipes=recipes, tags=tag_list) 
+                                       list_heading="Kaikki reseptit:", recipes=recipes,
+                                       tags=tag_list)
         if "Alphabetical" in request.form:
             heading = "Kaikki reseptit, aakkosjärjestys:"
         if "Anew" in request.form:
@@ -232,13 +237,13 @@ def recipes():
             heading = "Kaikki reseptit, uusin ensin:"
         if "Apopular" in request.form:
             recipes = receipts.all_order_by_favorite()
-            heading="Kaikki reseptit, suosituin ensin:"
+            heading = "Kaikki reseptit, suosituin ensin:"
         if "Aspeed" in request.form:
             recipes = receipts.all_order_by_time()
-            heading="Kaikki reseptit, nopein ensin:"
+            heading = "Kaikki reseptit, nopein ensin:"
         if "Aincredients" in request.form:
             recipes = receipts.all_order_by_inc_quantity()
-            heading="Kaikki reseptit, ainesmäärän mukaan:"
+            heading = "Kaikki reseptit, ainesmäärän mukaan:"
         for tag in tag_list:
             if tag[0] in request.form:
                 recipes = receipts.all_with_tag(tag[0])

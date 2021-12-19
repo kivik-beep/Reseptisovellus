@@ -9,14 +9,15 @@ def add_recipe(name, user_id, serves, instructions, active, passive):
             VALUES (:name, :user_id, :instructions, :serves, :active, :passive) RETURNING id"""
     recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id,
                                          "instructions":instructions, "serves":serves,
-                                         "active": float(active), "passive":float(passive)}).fetchone()[0]
+                                         "active": float(active),
+                                         "passive":float(passive)}).fetchone()[0]
     return recipe_id
 
 def get_all():
     sql = "SELECT id, name FROM recipe ORDER BY name"
     return db.session.execute(sql).fetchall()
 
-def get_total_amount():
+def count():
     sql = "SELECT COUNT(*) FROM recipe"
     return db.session.execute(sql).fetchone()[0]
 
@@ -40,7 +41,8 @@ def get_name(r_id):
     return db.session.execute(sql, {"id": r_id}).fetchone()[0]
 
 def get_favorite_count(r_id):
-    sql = "SELECT COUNT(r.id) FROM recipe as r JOIN favorites as f ON r.id=f.recipe_id WHERE r.id=:id"
+    sql = """SELECT COUNT(r.id) FROM recipe as r JOIN favorites as f ON r.id=f.recipe_id
+            WHERE r.id=:id"""
     return db.session.execute(sql, {"id": r_id}).fetchone()[0]
 
 # different recipe sortings
@@ -115,13 +117,3 @@ def change_instructions(new_instructions, recipe_id):
         db.session.commit()
         return ""
     return "Ohje ei voi olla tyhjä"
-
-  #  CREATE TABLE recipe (
-  #  id SERIAL PRIMARY KEY,
-  #  name TEXT UNIQUE,
-  #  user_id INTEGER REFERENCES users,
-  #  instructions TEXT,
-  #  serves INTEGER,
-  #  active DECIMAL,
-  #  passive DECIMAL
-  #  );

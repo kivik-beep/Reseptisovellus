@@ -65,7 +65,6 @@ def change_incredient(recipe_id, inc_id, new_quantity, new_scale, new_name):
 
     remove_connection(recipe_id, inc_id)
     add_incredient_parts(recipe_id, incredient_id, new_quantity, new_scale)
-    
 
 def add_incredient_parts(recipe_id, incredient_id, quantity, scale):
     sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale)
@@ -78,4 +77,3 @@ def remove_connection(recipe_id, incredient_id):
     sql = """DELETE FROM incredients WHERE recipe_id=:recipe_id AND incredient_id=:incredient_id"""
     db.session.execute(sql, {"recipe_id":recipe_id, "incredient_id": incredient_id})
     db.session.commit()
-
