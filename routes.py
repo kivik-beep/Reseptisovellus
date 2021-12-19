@@ -1,6 +1,4 @@
-import re
 from flask import render_template, request, redirect, session, abort
-from flask_sqlalchemy import _record_queries
 from app import app
 import users
 import receipts
@@ -108,7 +106,6 @@ def add_recipe():
 @app.route("/recipe/<int:id>", methods=["GET", "POST"])
 def recipe(id):
     if request.method == "POST":
-
         if (session["csrf_token"] != request.form["csrf_token"]):
             return abort(403)
         data = receipts.get_receipt(id)
@@ -164,16 +161,16 @@ def modify(id):
             instruction_error = receipts.change_instructions(request.form["instructions"], id)
         incredient_list = incredients.get_incredients(id)
         for i in incredient_list:
-            print("etsitään",i)
-            print(i[3])
             if str(i[3]) in request.form:
-                print("löytyi")
                 new_quantity = request.form["q_"+str(i[3])]
                 new_scale = request.form["s_"+str(i[3])]
                 new_name = request.form["n_"+str(i[3])]
                 incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
         if "new_inc" in request.form:
-            print("lisätään uusi aines")
+            quantity = request.form["q_"+str(i[3])]
+            scale = request.form["s_"+str(i[3])]
+            name = request.form["n_"+str(i[3])]
+            incredients.add_incredient_parts(quantity, scale, name)
         
         tag_list = tags.tags_for_recipe(id)
         for tag in tag_list:
