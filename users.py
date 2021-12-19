@@ -1,7 +1,7 @@
+import secrets
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
-import secrets
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username"
@@ -20,8 +20,9 @@ def login(username, password):
 def user_id():
     return session.get("user_id", -1)
 
-def is_taken(username):
-    result = db.session.execute("SELECT id FROM users WHERE username=:username", {"username": username})
+def is_taken(name):
+    result = db.session.execute("SELECT id FROM users WHERE username=:username",
+                                {"username": name})
     name = str(result.fetchone())[2:-3]
     return name
 
@@ -30,8 +31,8 @@ def username():
     name = str(result.fetchone())[2:-3]
     return name
 
-def username_recipe(user_id):
-    result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": user_id})
+def username_recipe(u_id):
+    result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": u_id})
     name = str(result.fetchone())[2:-3]
     return name
 
@@ -48,4 +49,3 @@ def register(username, password):
         return login(username, password)
     except:
         return False
-    
