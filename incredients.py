@@ -7,8 +7,8 @@ def add_incredient(name):
     return incredient_id
 
 def get_incredient(inc_name):
-    sql = "SELECT * FROM incredient WHERE name=:name"
-    incredient = db.session.execute(sql, {"name": inc_name}).fetchone()[0]
+    sql = "SELECT id FROM incredient WHERE name LIKE :name"
+    incredient = db.session.execute(sql, {"name": '%'+inc_name+'%'}).fetchall()
     return incredient
 
 def is_incredient(inc_name):
@@ -24,8 +24,8 @@ def get_incredients(recipe_id):
 
 def is_used(incredient):
     sql = """SELECT ii.incredient_id FROM incredient as i, incredients as ii
-          WHERE i.id = ii.incredient_id AND i.name=:incredient GROUP BY ii.incredient_id"""
-    result = db.session.execute(sql, {"incredient": incredient}).fetchall()
+          WHERE i.id = ii.incredient_id AND i.name LIKE :word GROUP BY ii.incredient_id"""
+    result = db.session.execute(sql, {"word": '%'+incredient+'%'}).fetchall()
     return len(result)
 
 def add_incredients(incredient_data, recipe_id):
@@ -55,13 +55,12 @@ def add_incredients(incredient_data, recipe_id):
 def change_incredient(recipe_id, inc_id, new_quantity, new_scale, new_name):
     if is_incredient(new_name):
         incredient_id = get_incredient(new_name)
-        print("oli jo nimi")
     else:
         incredient_id = add_incredient(new_name)
-        print("ei ollut vielä tätä")
 
-    add_incredient_parts(recipe_id, incredient_id, new_quantity, new_scale)
     remove_connection(recipe_id, inc_id)
+    add_incredient_parts(recipe_id, incredient_id, new_quantity, new_scale)
+    
 
 def add_incredient_parts(recipe_id, incredient_id, quantity, scale):
     sql = """INSERT INTO incredients (recipe_id, incredient_id, quantity, scale)

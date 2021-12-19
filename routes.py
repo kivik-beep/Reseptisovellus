@@ -213,15 +213,17 @@ def recipes():
         tag_list = tags.tags_all()
         if "search" in request.form:
             incredient = request.form["incredient"].lower()
-            if incredients.is_used(incredient):
+            if incredients.is_used(incredient) and len(incredient):
                 incredient_id = incredients.get_incredient(incredient)
-                incredient_containing_recipes = receipts.get_all_containing(incredient_id)
+                incredient_containing_recipes = []
+                for inc in incredient_id:
+                    incredient_containing_recipes += receipts.get_all_containing(inc.id)
                 return render_template("recipes.html",
-                                       list_heading="Reseptit joissa mukana " + str(incredient),
+                                       list_heading="Reseptit joiden aineksissa '" + str(incredient)+"':",
                                        recipes=incredient_containing_recipes, tags=tag_list)
             if len(incredient) > 0:
                 return render_template("recipes.html",
-                                       error="Ei reseptejä joissa mukana sana " + str(incredient),
+                                       error="Ei tuloksia hakusanalla '" + str(incredient)+"'",
                                        list_heading="Kaikki reseptit:", recipes=recipes, tags=tag_list) 
         if "Alphabetical" in request.form:
             heading = "Kaikki reseptit, aakkosjärjestys:"
