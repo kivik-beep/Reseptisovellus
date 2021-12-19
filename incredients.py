@@ -2,14 +2,13 @@ from db import db
 
 
 def add_incredient(name):
-    sql = "INSERT INTO incredient (name, type) VALUES (:inc_name, :type) RETURNING id"
-    incredient_id = db.session.execute(sql, {"inc_name":name, "type":0}).fetchone()[0]
+    sql = "INSERT INTO incredient (name, type) VALUES (:name, :type) RETURNING id"
+    incredient_id = db.session.execute(sql, {"name":name, "type":0}).fetchone()[0]
     return incredient_id
 
 def get_incredient(inc_name):
     sql = "SELECT id FROM incredient WHERE name=:name"
     incredient = db.session.execute(sql, {"name": inc_name}).fetchone()[0]
-    print(incredient, inc_name)
     return incredient
 
 def get_incredient_with(inc_name):
@@ -79,17 +78,4 @@ def remove_connection(recipe_id, incredient_id):
     sql = """DELETE FROM incredients WHERE recipe_id=:recipe_id AND incredient_id=:incredient_id"""
     db.session.execute(sql, {"recipe_id":recipe_id, "incredient_id": incredient_id})
     db.session.commit()
-
-#CREATE TABLE incredient (
-#    id SERIAL PRIMARY KEY,
-#    name TEXT UNIQUE,
-#    type TEXT
-#);
-
-#CREATE TABLE incredients (
-#    recipe_id INTEGER REFERENCES recipe ON DELETE CASCADE,
-#    incredient_id INTEGER REFERENCES incredient,
-#    quantity DECIMAL,
-#    scale TEXT
-#);
 

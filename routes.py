@@ -163,21 +163,28 @@ def modify(id):
         if "change_instructions" in request.form:
             instruction_error = receipts.change_instructions(request.form["instructions"], id)
         incredient_list = incredients.get_incredients(id)
+        incredient_error = ""
         for i in incredient_list:
             if str(i[3]) in request.form:
                 new_quantity = request.form["q_"+str(i[3])]
                 new_scale = request.form["s_"+str(i[3])]
                 new_name = request.form["n_"+str(i[3])]
-                incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
+                if new_quantity=="" or new_scale == "" or new_name == "":
+                    incredient_error = "aines tarvitsee määrän, mittayksikön ja nimen"
+                else:
+                    incredients.change_incredient(id, i[3], new_quantity, new_scale, new_name)
         if "new_inc" in request.form:
             quantity = request.form["r_q"]
             scale = request.form["r_s"]
             name = request.form["r_n"]
-            if incredients.is_incredient(name):
-                inc_id = incredients.get_incredient(name)
+            if quantity=="" or scale == "" or name == 0:
+                incredient_error = "aines tarvitsee määrän, mittayksikön ja nimen"
             else:
-                inc_id = incredients.add_incredient(name)
-            incredients.add_incredient_parts(id, inc_id, quantity, scale)
+                if incredients.is_incredient(name):
+                    inc_id = incredients.get_incredient(name)
+                else:
+                    inc_id = incredients.add_incredient(name)
+                incredients.add_incredient_parts(id, inc_id, quantity, scale)
         
         tag_list = tags.tags_for_recipe(id)
         for tag in tag_list:
@@ -199,7 +206,7 @@ def modify(id):
             return redirect("/recipe/"+str(id))        
         return render_template("modify.html", id=str(id), recipe=rec, incredients=incs, tags=recipe_tags,
                                 name_error=name_error, serving_error=serving_error, 
-                                instruction_error=instruction_error)
+                                instruction_error=instruction_error, incredient_error=incredient_error)
 
     else: 
         rec = receipts.get_receipt(id)
