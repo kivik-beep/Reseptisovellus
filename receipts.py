@@ -16,15 +16,14 @@ def get_all():
     sql = "SELECT id, name FROM recipe ORDER BY id DESC"
     return db.session.execute(sql).fetchall()
 
-def count_receipts():
+def get_total_amount():
     sql = "SELECT COUNT(*) FROM recipe"
     return db.session.execute(sql).fetchone()[0]
 
 def get_receipt(r_id):
     sql = "SELECT * FROM recipe WHERE id=:id"
     result = db.session.execute(sql, {"id": r_id}).fetchall()
-    data = result[0]
-    return data
+    return result[0]
 
 def is_id_taken(r_id):
     sql = "SELECT id FROM recipe WHERE id=:id"
@@ -38,6 +37,10 @@ def is_name_taken(r_name):
 
 def get_name(r_id):
     sql = "SELECT name FROM recipe WHERE id=:id"
+    return db.session.execute(sql, {"id": r_id}).fetchone()[0]
+
+def get_favorite_count(r_id):
+    sql = "SELECT COUNT(r.id) FROM recipe as r JOIN favorites as f ON r.id=f.recipe_id WHERE r.id=:id"
     return db.session.execute(sql, {"id": r_id}).fetchone()[0]
 
 # different recipe sortings
@@ -55,7 +58,7 @@ def all_with_tag(tag_name):
 # different recipe orders
 def all_order_by_favorite():
     sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f
-    ON r.id = f.recipe_id GROUP BY r.id ORDER BY COUNT(f.recipe_id)"""
+    ON r.id = f.recipe_id GROUP BY r.id ORDER BY COUNT(f.recipe_id) DESC"""
     return db.session.execute(sql).fetchall()
 
 def all_order_by_inc_quantity():

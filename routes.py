@@ -8,7 +8,8 @@ import tags
 
 @app.route("/")
 def index():
-    return render_template("index.html", name=users.username())
+    recipe_amount = receipts.get_total_amount()
+    return render_template("index.html", name=users.username(), r_amount = recipe_amount)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -123,19 +124,21 @@ def recipe(id):
         else:
             users_receipts.add_favorite(user_id, id)
             like = "tykätty"
-        return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1],
+        favorite = receipts.get_favorite_count(id)
+        return render_template("recipe.html", favorite_button=like, fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
     elif receipts.is_id_taken(id):
         data = receipts.get_receipt(id)
         incredient_data = incredients.get_incredients(id)
+        favorite = receipts.get_favorite_count(id)
         tag_list = tags.tags_for_recipe(id)
         if users_receipts.is_favorite(users.user_id(), id):
             like = "tykätty"
         else:
             like = "tykkää"
-        return render_template("recipe.html", favorite_button=like, id=str(id), name=data[1],
+        return render_template("recipe.html", favorite_button=like, fav_count=favorite, id=str(id), name=data[1],
                                creator=users.username_recipe(data[2]), serves=data[4],
                                active=data[5], passive=data[6], total=data[5] + data[6],
                                instructions=data[3], incredients=incredient_data, tags=tag_list)
