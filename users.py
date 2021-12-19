@@ -21,9 +21,9 @@ def user_id():
     return session.get("user_id", -1)
 
 def is_taken(username):
-    result = db.session.execute("SELECT * FROM users WHERE username=:username", {"username": username})
-    taken = len(result.fetchone()[0])
-    return taken
+    result = db.session.execute("SELECT id FROM users WHERE username=:username", {"username": username})
+    name = str(result.fetchone())[2:-3]
+    return name
 
 def username():
     result = db.session.execute("SELECT username FROM users WHERE id=:id", {"id": user_id()})

@@ -15,7 +15,7 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        username = request.form["username"].lower()
+        username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         error_name, error_match, error_length = "","",""
@@ -23,14 +23,14 @@ def register():
             error_match = "Salasanat eivät täsmää"
         if len(username) < 4:
             error_name = "Käyttäjänimen oltava vähintään neljän merkin mittainen. "
-        if users.is_taken(username):
+        if users.is_taken(username.lower()):
             error_name = "Käyttäjänimi on jo varattu"
         if len(password1) < 5:
             error_length = "Salasanan oltava vähintään kuuden merkin mittainen. "
         if error_name != "" or error_length != "" or error_match != "":
             return render_template("register.html", e_name=error_name, e_match=error_match,
                                    e_length=error_length, name=username)
-        if users.register(username, password1):
+        if users.register(username.lower(), password1):
             return redirect("/welcome")
         else:
             return render_template("register.html",
@@ -41,7 +41,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     if request.method == "POST":
-        username = request.form["username"]
+        username = request.form["username"].lower()
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/welcome")
