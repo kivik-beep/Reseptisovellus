@@ -6,6 +6,7 @@ https://polar-hamlet-77249.herokuapp.com/
 
 Kyseessä on sovellus, joka sisältää käyttäjien lisäämiä reseptejä. Sovellusta voi käyttää joko kirjautumatta tai kirjautumalla sisään.
 
+----------------------------------------------------------------------------------
 ### Käyttäjätoiminnot
 #### Kirjautumaton käyttäjä voi
 - Selata reseptejä
