@@ -13,7 +13,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive):
     return recipe_id
 
 def get_all():
-    sql = "SELECT id, name FROM recipe ORDER BY id DESC"
+    sql = "SELECT id, name FROM recipe ORDER BY name"
     return db.session.execute(sql).fetchall()
 
 def get_total_amount():
@@ -54,8 +54,11 @@ def all_with_tag(tag_name):
             WHERE t.recipe_id=r.id AND t.name=:tag_name"""
     return db.session.execute(sql, {"tag_name":tag_name}).fetchall()
 
-
 # different recipe orders
+def all_order_novelty():
+    sql = "SELECT id, name FROM recipe ORDER BY id DESC"
+    return db.session.execute(sql).fetchall()
+
 def all_order_by_favorite():
     sql = """SELECT r.id, r.name FROM recipe as r LEFT JOIN favorites as f
     ON r.id = f.recipe_id GROUP BY r.id ORDER BY COUNT(f.recipe_id) DESC"""

@@ -223,7 +223,10 @@ def recipes():
                 return render_template("recipes.html",
                                        error="Ei reseptejä joissa mukana sana " + str(incredient),
                                        list_heading="Kaikki reseptit:", recipes=recipes, tags=tag_list) 
+        if "Alphabetical" in request.form:
+            heading = "Kaikki reseptit, aakkosjärjestys:"
         if "Anew" in request.form:
+            recipes = receipts.all_order_novelty()
             heading = "Kaikki reseptit, uusin ensin:"
         if "Apopular" in request.form:
             recipes = receipts.all_order_by_favorite()
