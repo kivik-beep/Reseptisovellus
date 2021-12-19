@@ -4,7 +4,7 @@ from db import db
 def add_incredient(name):
     sql = "INSERT INTO incredient (name, type) VALUES (:inc_name, :type) RETURNING id"
     incredient_id = db.session.execute(sql, {"inc_name":name, "type":0}).fetchone()[0]
-    return incredient_id[0]
+    return incredient_id
 
 def get_incredient(inc_name):
     sql = "SELECT * FROM incredient WHERE name=:name"
@@ -31,17 +31,19 @@ def is_used(incredient):
 def add_incredients(incredient_data, recipe_id):
     for row in incredient_data.split("\n"):
         parts = row.strip().split("+")
-        if parts[0].isnumeric():
-            quantity = parts[0]
+        if len(parts) < 2:
+            continue
+        try:
+            quantity = float(parts[0])
             scale = parts[1]
             name = parts[2:]
-        else:
+        except:
             quantity = 1
             scale = parts[0]
             name = parts[1:]
         inc_name = ""
         for part in name:
-            inc_name += part
+            inc_name += part + " "
         inc_name = inc_name.lower()
 
         if is_incredient(inc_name):

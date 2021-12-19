@@ -9,7 +9,7 @@ def add_recipe(name, user_id, serves, instructions, active, passive):
             VALUES (:name, :user_id, :instructions, :serves, :active, :passive) RETURNING id"""
     recipe_id = db.session.execute(sql, {"name":name, "user_id":user_id,
                                          "instructions":instructions, "serves":serves,
-                                         "active": active, "passive":passive}).fetchone()[0]
+                                         "active": float(active), "passive":float(passive)}).fetchone()[0]
     return recipe_id
 
 def get_all():
@@ -89,14 +89,14 @@ def change_active_time(new_time, recipe_id):
     if not len(new_time):
         new_time = 0
     sql = "UPDATE recipe SET active=:active WHERE id=:recipe_id"
-    db.session.execute(sql, {"active":new_time, "recipe_id":recipe_id})
+    db.session.execute(sql, {"active":float(new_time), "recipe_id":recipe_id})
     db.session.commit()
 
 def change_passive_time(new_time, recipe_id):
     if not len(new_time):
         new_time = 0
     sql = "UPDATE recipe SET passive=:passive WHERE id=:recipe_id"
-    db.session.execute(sql, {"passive":new_time, "recipe_id":recipe_id})
+    db.session.execute(sql, {"passive":float(new_time), "recipe_id":recipe_id})
     db.session.commit()
 
 def change_instructions(new_instructions, recipe_id):

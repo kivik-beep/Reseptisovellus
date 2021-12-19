@@ -8,14 +8,14 @@
 <h3>Annoksia</h3> <input type="number" name="r_serves" class="input" value="{{ recipe[4] }}"><input type="submit" name="serves" class="button" value="Muuta">
 {{ serving_error }}
 <h3>Valmistusaika</h3>
-Aktiivinen: <input type="number" step=".01" name="t_active" class="input" value="{{ recipe[5] }}"><input type="submit" name="active" class="button" value="Muuta">
+Aktiivinen: <input type="number" step=".05" name="t_active" class="input" value="{{ recipe[5] }}"><input type="submit" name="active" class="button" value="Muuta">
 <br>
-Passiivinen: <input type="number" step=".01" name="t_passive" class="input" value="{{ recipe[6] }}"><input type="submit" name="passive" class="button" value="Muuta">
+Passiivinen: <input type="number" step=".05" name="t_passive" class="input" value="{{ recipe[6] }}"><input type="submit" name="passive" class="button" value="Muuta">
 <br>
 <h3>Ainekset</h3>
 <ul id="list">
     {% for inc in incredients %}
-    <li> <input type="text" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
+    <li> <input type="text" step=".05" style="width: 4em" name="q_{{inc[3]}}" class="input" value={{inc.quantity}}>
         <input type="text" size="6" name="s_{{inc[3]}}" class="input" value={{inc.scale}}>
         <input type="text" name="n_{{inc[3]}}" class="input" value={{inc.name}}>
         <input type="submit" name="{{inc[3]}}" class="button" value="Muuta">

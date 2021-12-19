@@ -10,8 +10,8 @@ CREATE TABLE recipe (
     user_id INTEGER REFERENCES users,
     instructions TEXT,
     serves INTEGER,
-    active DECIMAL,
-    passive DECIMAL
+    active DECIMAL(5,2),
+    passive DECIMAL(5,2)
 );
 
 CREATE TABLE incredient (
@@ -24,7 +24,7 @@ CREATE TABLE incredient (
 CREATE TABLE incredients (
     recipe_id INTEGER REFERENCES recipe ON DELETE CASCADE,
     incredient_id INTEGER REFERENCES incredient,
-    quantity DECIMAL,
+    quantity DECIMAL(5,2),
     scale TEXT
 );
 
