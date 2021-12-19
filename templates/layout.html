@@ -7,8 +7,6 @@
     <div class="box box2">
         {% if session.user_id %}
         <a href="/logout" class="button"> Kirjaudu ulos</a>
-        <a href="/welcome" class="button">Oma sivu</a>
-        <a href="/recipes" class="button">Reseptit</a>
         {% else %}
         <a href="/login" class="button">Kirjaudu</a>
         <a href="/register" class="button">Luo tunnus</a>
